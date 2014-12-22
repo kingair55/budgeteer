@@ -6,16 +6,18 @@
 }
 
 #addExpenseDiv{
-    width: inherit;
+    width: 150px;
     height: 50px;
     background-color: #00ff21;
+    float: left;
 }
 
 #totalExpenseDiv{
-    width: inherit;
+    width: 250px;
     height: 50px;
     line-height: 50px;
     background-color: #e08eb2;
+    float: left;
 }
 
 #totalExpenseLabel{
@@ -28,7 +30,7 @@
 
 #expenseList{
     width: inherit;
-    height: 625px;
+    height: 675px;
     overflow: auto;
     padding-bottom: 25px;
 }

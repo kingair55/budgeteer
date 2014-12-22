@@ -6,16 +6,18 @@
 }
 
 #addIncomeDiv{
-    width: inherit;
+    width: 150px;
     height: 50px;
     background-color: white;
+    float: left;
 }
 
 #totalIncomeDiv{
-    width: inherit;
+    width: 250px;
     height: 50px;
     line-height: 50px;
     background-color: #b6ff00;
+    float: left;
 }
 
 #totalIncomeLabel{
@@ -27,8 +29,9 @@
 }
 
 #incomeList{
+    clear: both;
     width: inherit;
-    height: 625px;
+    height: 675px;
     overflow: auto;
     padding-bottom: 25px;
 }

@@ -1,6 +1,7 @@
-﻿var suggestionListIncome = [];
+﻿var suggestionListIncome = Object.create(null);
 var listCreatedIncome = false;
 var labelToUpdateIncome = "";
+var newlyCreatedLabelIncome;
 
 $("#addIncome").click(function () {
     var linebreak = document.createElement("br");
@@ -42,22 +43,24 @@ $(document).on("click", "label.incomeType", function () {
 });
 
 $(document).on("blur", "input.tempClassIncome", function () {
-    $("#listSuggestionIncome").remove();
     listCreatedIncome = false;
     var txt = $(this).val();
     var elementCount = getElementCountByClass(".incomeType");
     $(this).replaceWith("<label " + "id=\"" + labelToUpdateIncome +  "\" " + "class=\"tempClassIncome\"></label>");
 
-    if(txt != "")
-        $("label.tempClassIncome").text(txt);
-    else
-        $("label.tempClassIncome").text("Click to edit");
+    var newLabel = $("label.tempClassIncome");
 
-    if ($("label.tempClassIncome").text() != "Click to edit") {
-        suggestionListIncome[suggestionListIncome.length] = $("label.tempClassIncome").text();
+    if(txt != "")
+        newLabel.text(txt);
+    else
+        newLabel.text("Click to edit");
+
+    if (newLabel.text() != "Click to edit" && !(newLabel.text() in suggestionListIncome)) {
+        suggestionListIncome[newLabel.text()] = "";
     }
-    $("label.tempClassIncome").removeClass("tempClassIncome").addClass("incomeType");
+    newLabel.removeClass("tempClassIncome").addClass("incomeType");
     labelToUpdateIncome = "";
+    newlyCreatedLabelIncome = newLabel;
 });
 
 $(".incomeInput").each(function () {
@@ -77,7 +80,7 @@ $(".incomeInput").each(function () {
 function jsInjectionIncome() {
     $("input.tempClassIncome").on("keyup", function () {
         var theField = $(this);
-        if (theField.val().length > 2 && suggestionListIncome.length > 0) {
+        if (theField.val().length > 2 && hasProperty(suggestionListIncome)) {
             if (!listCreatedIncome) {
                 theField.after("<ul id=\"listSuggestionIncome\"></ul>");
                 listCreatedIncome = true;
@@ -85,16 +88,21 @@ function jsInjectionIncome() {
             var theList = $("#listSuggestionIncome");
             theList.empty();
 
-            for (i = 0; i < suggestionListIncome.length; i++) {
-                var word = suggestionListIncome[i];
-                if (word.toLowerCase().indexOf(theField.val()) > -1) {
-                    theList.append("<li class=\"wordsIncome\">" + word + "</li>");
+            for (var key in suggestionListIncome) {
+                if (key.toLowerCase().indexOf(theField.val()) > -1) {
+                    theList.append("<li class=\"wordsIncome\">" + key + "</li>");
                 }
             }
 
             if (theList.children("li").length == 0) {
                 theList.remove();
                 listCreatedIncome = false;
+            }
+            else {
+                $(document).on("click", ".wordsIncome", function () {
+                    newlyCreatedLabelIncome.text(this.innerText);
+                    $("#listSuggestionIncome").remove();
+                });
             }
         } else {
             $("#listSuggestionIncome").remove();
@@ -105,4 +113,11 @@ function jsInjectionIncome() {
 
 function getElementCountByClass(elementClass){
     return count = $(elementClass).length;
+}
+
+function hasProperty(object) {
+    for (var prop in object) {
+        return true;
+    }
+    return false;
 }
