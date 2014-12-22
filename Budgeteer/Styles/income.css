@@ -1,0 +1,60 @@
+﻿#income{
+    float: left;
+    width: 500px;
+    height: inherit;
+    background-color: #00ffff;
+}
+
+#addIncomeDiv{
+    width: inherit;
+    height: 50px;
+    background-color: white;
+}
+
+#totalIncomeDiv{
+    width: inherit;
+    height: 50px;
+    line-height: 50px;
+    background-color: #b6ff00;
+}
+
+#totalIncomeLabel{
+    font-size: 20px;
+}
+
+#totalIncomeValue{
+    font-size: 30px;
+}
+
+#incomeList{
+    width: inherit;
+    height: 625px;
+    overflow: auto;
+    padding-bottom: 25px;
+}
+
+#listSuggestionIncome{
+    position: absolute;
+    width: 150px;
+    margin: 0px;
+    padding: 0px;
+    padding-left: 5px;
+    padding-top: 3px;
+    list-style-type: none;
+    background-color: white;
+    z-index: 999;
+}
+
+.wordsIncome{
+    width: 150px;
+}
+
+.wordsIncome:hover{
+    background-color: #85ceff;
+}
+
+.incomeInput{
+    margin-left: 5px;
+    margin-top: 10px;
+    height: 25px;
+}

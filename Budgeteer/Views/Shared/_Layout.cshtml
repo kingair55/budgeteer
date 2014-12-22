@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" type="text/css" href="~/Styles/layout.css" />
+    <link rel="stylesheet" type="text/css" href="~/Styles/index.css" />
+    <link rel="stylesheet" type="text/css" href="~/Styles/income.css" />
+    <link rel="stylesheet" type="text/css" href="~/Styles/expense.css" />
+    <link rel="stylesheet" type="text/css" href="~/Styles/footer.css" />
+    <script src="~/Scripts/jquery-2.1.1.min.js"></script>
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div id="headstrip">
+        <div id="headstripContent">
+            <div id="logoDiv">
+                <label id="site_name">ASDFGH</label>
+            </div>
+            <div class="separatorDiv"></div>
+            <div id="loginDiv">
+                <input type="button" id="loginBtn" value="Login" />
+                <input type="button" id="registerBtn" value="Register" />
+            </div>
+        </div>
+    </div>
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>
+<footer>
+    <script src="~/Scripts/income.js"></script>
+    <script src="~/Scripts/expense.js"></script>
+</footer>

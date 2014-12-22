@@ -1,0 +1,60 @@
+﻿#expense{
+    float: left;
+    width: 500px;
+    height: inherit;
+    background-color: #ffd800;
+}
+
+#addExpenseDiv{
+    width: inherit;
+    height: 50px;
+    background-color: #00ff21;
+}
+
+#totalExpenseDiv{
+    width: inherit;
+    height: 50px;
+    line-height: 50px;
+    background-color: #e08eb2;
+}
+
+#totalExpenseLabel{
+    font-size: 20px;
+}
+
+#totalExpenseValue{
+    font-size: 30px;
+}
+
+#expenseList{
+    width: inherit;
+    height: 625px;
+    overflow: auto;
+    padding-bottom: 25px;
+}
+
+#listSuggestionExpense{
+    position: absolute;
+    width: 150px;
+    margin: 0px;
+    padding: 0px;
+    padding-left: 5px;
+    padding-top: 3px;
+    list-style-type: none;
+    background-color: white;
+    z-index: 999;
+}
+
+.wordsExpense{
+    width: 150px;
+}
+
+.wordsExpense:hover{
+    background-color: #85ceff;
+}
+
+.expenseInput{
+    margin-left: 5px;
+    margin-top: 10px;
+    height: 25px;
+}
