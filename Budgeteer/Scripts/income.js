@@ -2,6 +2,7 @@
 var listCreatedIncome = false;
 var labelToUpdateIncome = "";
 var newlyCreatedLabelIncome;
+var lastHoveredListItemTextIncome = "";
 
 $("#addIncome").click(function () {
     var linebreak = document.createElement("br");
@@ -31,6 +32,10 @@ $("#addIncome").click(function () {
             $("#totalIncomeValue").text(total);
         }
     });
+
+    elem.on("click", function () {
+        $(this).focus().select();
+    });
 });
 
 $(document).on("click", "label.incomeType", function () {
@@ -43,6 +48,7 @@ $(document).on("click", "label.incomeType", function () {
 });
 
 $(document).on("blur", "input.tempClassIncome", function () {
+    $("#listSuggestionIncome").remove();
     listCreatedIncome = false;
     var txt = $(this).val();
     var elementCount = getElementCountByClass(".incomeType");
@@ -50,8 +56,12 @@ $(document).on("blur", "input.tempClassIncome", function () {
 
     var newLabel = $("label.tempClassIncome");
 
-    if(txt != "")
-        newLabel.text(txt);
+    if (txt != "") {
+        if (lastHoveredListItemTextIncome == "")
+            newLabel.text(txt);
+        else
+            newLabel.text(lastHoveredListItemTextIncome);
+    }
     else
         newLabel.text("Click to edit");
 
@@ -61,6 +71,7 @@ $(document).on("blur", "input.tempClassIncome", function () {
     newLabel.removeClass("tempClassIncome").addClass("incomeType");
     labelToUpdateIncome = "";
     newlyCreatedLabelIncome = newLabel;
+    lastHoveredListItemTextIncome = "";
 });
 
 $(".incomeInput").each(function () {
@@ -99,9 +110,11 @@ function jsInjectionIncome() {
                 listCreatedIncome = false;
             }
             else {
-                $(document).on("click", ".wordsIncome", function () {
-                    newlyCreatedLabelIncome.text(this.innerText);
-                    $("#listSuggestionIncome").remove();
+                $(document).on("mouseover", ".wordsIncome", function () {
+                    lastHoveredListItemTextIncome = this.innerText;
+                });
+                $(document).on("mouseout", ".wordsIncome", function () {
+                    lastHoveredListItemTextIncome = "";
                 });
             }
         } else {
@@ -110,6 +123,10 @@ function jsInjectionIncome() {
         }
     });
 }
+
+$(".incomeInput").on("click", function () {
+    $(this).focus().select();
+});
 
 function getElementCountByClass(elementClass){
     return count = $(elementClass).length;

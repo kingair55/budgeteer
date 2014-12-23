@@ -2,6 +2,7 @@
 var listCreatedExpense = false;
 var labelToUpdateExpense = "";
 var newlyCreatedLabelExpense;
+var lastHoveredListItemTextExpense = "";
 
 $("#addExpense").click(function () {
     var linebreak = document.createElement("br");
@@ -31,6 +32,10 @@ $("#addExpense").click(function () {
             $("#totalExpenseValue").text(total);
         }
     });
+
+    elem.on("click", function () {
+        $(this).focus().select();
+    });
 });
 
 $(document).on("click", "label.expenseType", function () {
@@ -43,6 +48,7 @@ $(document).on("click", "label.expenseType", function () {
 });
 
 $(document).on("blur", "input.tempClassExpense", function () {
+    $("#listSuggestionExpense").remove();
     listCreatedExpense = false;
     var txt = $(this).val();
     var elementCount = getElementCountByClass(".expenseType");
@@ -50,8 +56,12 @@ $(document).on("blur", "input.tempClassExpense", function () {
 
     var newLabel = $("label.tempClassExpense");
 
-    if(txt != "")
-        newLabel.text(txt);
+    if (txt != "") {
+        if (lastHoveredListItemTextExpense == "")
+            newLabel.text(txt);
+        else
+            newLabel.text(lastHoveredListItemTextExpense);
+    }
     else
         newLabel.text("Click to edit");
 
@@ -61,6 +71,7 @@ $(document).on("blur", "input.tempClassExpense", function () {
     newLabel.removeClass("tempClassExpense").addClass("expenseType");
     labelToUpdateExpense = "";
     newlyCreatedLabelExpense = newLabel;
+    lastHoveredListItemTextExpense = "";
 });
 
 $(".expenseInput").each(function () {
@@ -99,9 +110,11 @@ function jsInjectionExpense() {
                 listCreatedExpense = false;
             }
             else {
-                $(document).on("click", ".wordsExpense", function () {
-                    newlyCreatedLabelExpense.text(this.innerText);
-                    $("#listSuggestionExpense").remove();
+                $(document).on("mouseover", ".wordsExpense", function () {
+                    lastHoveredListItemTextExpense = this.innerText;
+                });
+                $(document).on("mouseout", ".wordsExpense", function () {
+                    lastHoveredListItemTextExpense = "";
                 });
             }
         } else {
@@ -110,6 +123,10 @@ function jsInjectionExpense() {
         }
     });
 }
+
+$(".expenseInput").on("click", function () {
+    $(this).focus().select();
+});
 
 function getElementCountByClass(elementClass) {
     return count = $(elementClass).length;
