@@ -3,23 +3,27 @@ var listCreatedIncome = false;
 var labelToUpdateIncome = "";
 var newlyCreatedLabelIncome;
 var lastHoveredListItemTextIncome = "";
+var timeout;
 
 $("#addIncome").click(function () {
     var linebreak = document.createElement("br");
+    var newDiv = document.createElement("div");
     var newLabel = document.createElement("label");
     var newInput = document.createElement("input");
-    var elementCount = getElementCountByClass(".incomeType");
-    newLabel.id = "incomeLabel" + (parseInt(elementCount) + parseInt("1"));
+    var elementCount = parseInt(getElementCountByClass(".incomeType")) + parseInt("1");
+    newDiv.id = "incomeDiv" + elementCount;
+    newDiv.className = "incomeEntry";
+    newLabel.id = "incomeLabel" +elementCount;
     newLabel.className = "incomeType";
     newLabel.innerText = "Click to edit";
-    newInput.id = "incomeField" + (parseInt(elementCount) + parseInt("1"));
+    newInput.id = "incomeField" + elementCount;
     newInput.className = "incomeInput";
     newInput.type = "text";
     newInput.value = "Income";
 
-    document.getElementById("incomeList").appendChild(linebreak);
-    document.getElementById("incomeList").appendChild(newLabel);
-    document.getElementById("incomeList").appendChild(newInput);
+    document.getElementById("incomeList").appendChild(newDiv);
+    document.getElementById(newDiv.id).appendChild(newLabel);
+    document.getElementById(newDiv.id).appendChild(newInput);
 
     var temp = newInput.id;
     var elem = $("#"+temp);
@@ -36,6 +40,10 @@ $("#addIncome").click(function () {
     elem.on("click", function () {
         $(this).focus().select();
     });
+
+    timeout = setTimeout(function () {
+        $("#"+newDiv.id).css("background-color", "white");
+    }, 5000);
 });
 
 $(document).on("click", "label.incomeType", function () {

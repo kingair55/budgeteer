@@ -48,6 +48,12 @@
     z-index: 999;
 }
 
+.incomeEntry{
+    width: inherit;
+    height: 50px;
+    background-color: lightblue;
+}
+
 .wordsIncome{
     width: 150px;
 }
