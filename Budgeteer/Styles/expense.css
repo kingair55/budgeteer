@@ -6,26 +6,10 @@
 }
 
 #addExpenseDiv{
-    width: 150px;
+    width: 100px;
     height: 50px;
     background-color: #00ff21;
-    float: left;
-}
-
-#totalExpenseDiv{
-    width: 250px;
-    height: 50px;
-    line-height: 50px;
-    background-color: #e08eb2;
-    float: left;
-}
-
-#totalExpenseLabel{
-    font-size: 20px;
-}
-
-#totalExpenseValue{
-    font-size: 30px;
+    float: right;
 }
 
 #expenseList{
@@ -59,4 +43,5 @@
     margin-left: 5px;
     margin-top: 10px;
     height: 25px;
+    width: 100px;
 }

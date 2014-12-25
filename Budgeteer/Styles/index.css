@@ -5,3 +5,63 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+#totalDiv {
+    width: 850px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#totalIncomeDiv{
+    width: 250px;
+    height: 50px;
+    line-height: 50px;
+    float: left;
+}
+
+#totalIncomeLabel{
+    font-size: 20px;
+    color: #bdbcbc;
+    margin-left: 10px;
+}
+
+#totalIncomeValue{
+    font-size: 25px;
+    color: #37ad15;
+}
+
+#totalExpenseDiv{
+    width: 250px;
+    height: 50px;
+    line-height: 50px;
+    float: left;
+}
+
+#totalExpenseLabel{
+    font-size: 20px;
+    color: #bdbcbc;
+    margin-left: 10px;
+}
+
+#totalExpenseValue{
+    font-size: 25px;
+    color: red;
+}
+
+#savingsDiv {
+    height: 50px;
+    line-height: 50px;
+    width: 350px;
+    background-color: #ffffff;
+    float: left;
+}
+
+#savingsLabel{
+    font-size: 20px;
+    color: #bdbcbc;
+    margin-left: 10px;
+}
+
+#savingsValue{
+    font-size: 30px;
+}
