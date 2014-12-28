@@ -3,7 +3,7 @@ var listCreatedIncome = false;
 var labelToUpdateIncome = "";
 var newlyCreatedLabelIncome;
 var lastHoveredListItemTextIncome = "";
-var timeout;
+var timeoutIncome;
 
 $("#addIncome").click(function () {
     var linebreak = document.createElement("br");
@@ -13,7 +13,7 @@ $("#addIncome").click(function () {
     var elementCount = parseInt(getElementCountByClass(".incomeType")) + parseInt("1");
     newDiv.id = "incomeDiv" + elementCount;
     newDiv.className = "incomeEntry";
-    newLabel.id = "incomeLabel" +elementCount;
+    newLabel.id = "incomeLabel" + elementCount;
     newLabel.className = "incomeType";
     newLabel.innerText = "Click to edit";
     newInput.id = "incomeField" + elementCount;
@@ -33,15 +33,19 @@ $("#addIncome").click(function () {
             var total = parseInt($("#totalIncomeValue").text().replace(/[^0-9]/g, "")) || 0;
             total = (total - (parseInt(elem.data("oldValue")) || 0)) + (parseInt(elem.val()) || 0);
             elem.data("oldValue", elem.val());
-            $("#totalIncomeValue").text(total);
+            $("#totalIncomeValue").text("$" + total);
         }
     });
 
     elem.on("click", function () {
         $(this).focus().select();
     });
+    
+    elem.on("blur", function () {
+        updateSavingsTextColor();
+    });
 
-    timeout = setTimeout(function () {
+    timeoutIncome = setTimeout(function () {
         $("#"+newDiv.id).css("background-color", "white");
     }, 5000);
 });
@@ -76,7 +80,9 @@ $(document).on("blur", "input.tempClassIncome", function () {
     if (newLabel.text() != "Click to edit" && !(newLabel.text() in suggestionListIncome)) {
         suggestionListIncome[newLabel.text()] = "";
     }
+
     newLabel.removeClass("tempClassIncome").addClass("incomeType");
+
     labelToUpdateIncome = "";
     newlyCreatedLabelIncome = newLabel;
     lastHoveredListItemTextIncome = "";
@@ -91,7 +97,7 @@ $(".incomeInput").each(function () {
             var total = parseInt($("#totalIncomeValue").text().replace(/[^0-9]/g, "")) || 0;
             total = (total - (parseInt(elem.data("oldValue")) || 0)) + (parseInt(elem.val()) || 0);
             elem.data("oldValue", elem.val());
-            $("#totalIncomeValue").text(total);
+            $("#totalIncomeValue").text("$" + total);
         }
     });
 });
@@ -136,13 +142,6 @@ $(".incomeInput").on("click", function () {
     $(this).focus().select();
 });
 
-function getElementCountByClass(elementClass){
-    return count = $(elementClass).length;
-}
-
-function hasProperty(object) {
-    for (var prop in object) {
-        return true;
-    }
-    return false;
-}
+$(".incomeInput").on("blur", function () {
+    updateSavingsTextColor();
+});

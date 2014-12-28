@@ -3,39 +3,51 @@ var listCreatedExpense = false;
 var labelToUpdateExpense = "";
 var newlyCreatedLabelExpense;
 var lastHoveredListItemTextExpense = "";
+var timeoutExpense;
 
 $("#addExpense").click(function () {
     var linebreak = document.createElement("br");
+    var newDiv = document.createElement("div");
     var newLabel = document.createElement("label");
     var newInput = document.createElement("input");
-    var elementCount = getElementCountByClass(".expenseType");
-    newLabel.id = "expenseLabel" + (parseInt(elementCount) + parseInt("1"));
+    var elementCount = (parseInt(getElementCountByClass(".expenseType")) + parseInt("1"));
+    newDiv.id = "expenseDiv" + elementCount;
+    newDiv.className = "expenseEntry";
+    newLabel.id = "expenseLabel" + elementCount;
     newLabel.className = "expenseType";
     newLabel.innerText = "Click to edit";
-    newInput.id = "expenseField" + (parseInt(elementCount) + parseInt("1"));
+    newInput.id = "expenseField" + elementCount;
     newInput.className = "expenseInput";
     newInput.type = "text";
     newInput.value = "Expense";
 
-    document.getElementById("expenseList").appendChild(linebreak);
-    document.getElementById("expenseList").appendChild(newLabel);
-    document.getElementById("expenseList").appendChild(newInput);
+    document.getElementById("expenseList").appendChild(newDiv);
+    document.getElementById(newDiv.id).appendChild(newLabel);
+    document.getElementById(newDiv.id).appendChild(newInput);
 
     var temp = newInput.id;
     var elem = $("#"+temp);
     elem.data("oldValue", elem.val());
     elem.on("propertychange change click keyup input paste", function (event) {
         if (elem.data("oldValue") != elem.val()) {
-            var total = parseInt($("#totalExpenseValue").text().replace("/[^0-9]/g", "")) || 0;
+            var total = parseInt($("#totalExpenseValue").text().replace(/[^0-9]/g, "")) || 0;
             total = (total - (parseInt(elem.data("oldValue")) || 0)) + (parseInt(elem.val()) || 0);
             elem.data("oldValue", elem.val());
-            $("#totalExpenseValue").text(total);
+            $("#totalExpenseValue").text("$" + total);
         }
     });
 
     elem.on("click", function () {
         $(this).focus().select();
     });
+
+    elem.on("blur", function () {
+        updateSavingsTextColor();
+    });
+
+    timeoutExpense = setTimeout(function () {
+        $("#"+newDiv.id).css("background-color", "white");
+    }, 5000);
 });
 
 $(document).on("click", "label.expenseType", function () {
@@ -68,7 +80,9 @@ $(document).on("blur", "input.tempClassExpense", function () {
     if (newLabel.text() != "Click to edit" && !(newLabel.text() in suggestionListExpense)) {
         suggestionListExpense[newLabel.text()] = newLabel.text();
     }
+
     newLabel.removeClass("tempClassExpense").addClass("expenseType");
+
     labelToUpdateExpense = "";
     newlyCreatedLabelExpense = newLabel;
     lastHoveredListItemTextExpense = "";
@@ -80,10 +94,10 @@ $(".expenseInput").each(function () {
 
     elem.on("propertychange change click keyup input paste", function (event) {
         if (elem.data("oldValue") != elem.val()) {
-            var total = parseInt($("#totalExpenseValue").text().replace("/[^0-9]/g", "")) || 0;
+            var total = parseInt($("#totalExpenseValue").text().replace(/[^0-9]/g, "")) || 0;
             total = (total - (parseInt(elem.data("oldValue")) || 0)) + (parseInt(elem.val()) || 0);
-            $("#totalExpenseValue").text(total);
             elem.data("oldValue", elem.val());
+            $("#totalExpenseValue").text("$" + total);
         }
     });
 });
@@ -128,13 +142,6 @@ $(".expenseInput").on("click", function () {
     $(this).focus().select();
 });
 
-function getElementCountByClass(elementClass) {
-    return count = $(elementClass).length;
-}
-
-function hasProperty(object) {
-    for (var prop in object) {
-        return true;
-    }
-    return false;
-}
+$(".expenseInput").on("blur", function () {
+    updateSavingsTextColor();
+});

@@ -31,6 +31,12 @@
     z-index: 999;
 }
 
+.expenseEntry{
+    width: inherit;
+    height: 50px;
+    background-color: #808080;
+}
+
 .wordsExpense{
     width: 150px;
 }
