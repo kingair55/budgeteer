@@ -48,6 +48,20 @@ $("#addIncome").click(function () {
     timeoutIncome = setTimeout(function () {
         $("#"+newDiv.id).css("background-color", "white");
     }, 5000);
+
+    $(".incomeEntry").on("mouseover", function () {
+        $("#editEntryModal").appendTo(this);
+        $("#editEntryModal").css("display", "block");
+        $("#editEntryModal").css("float", "right");
+
+        $("#deleteEntry").appendTo($("#editEntryModal"));
+        $("#deleteEntry").css("display", "block");
+    });
+
+    $(".incomeEntry").on("mouseout", function () {
+        $("#editEntryModal").css("display", "none");
+        $("#deleteEntry").css("display", "none");
+    });
 });
 
 $(document).on("click", "label.incomeType", function () {
@@ -144,4 +158,19 @@ $(".incomeInput").on("click", function () {
 
 $(".incomeInput").on("blur", function () {
     updateSavingsTextColor();
+});
+
+
+$(".incomeEntry").on("mouseover", function () {
+    $("#editEntryModal").appendTo(this);
+    $("#editEntryModal").css("display", "block");
+    $("#editEntryModal").css("float", "right");
+
+    $("#deleteEntry").appendTo($("#editEntryModal"));
+    $("#deleteEntry").css("display", "block");
+});
+
+$(".incomeEntry").on("mouseout", function () {
+    $("#editEntryModal").css("display", "none");
+    $("#deleteEntry").css("display", "none");
 });

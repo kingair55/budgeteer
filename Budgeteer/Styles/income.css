@@ -7,10 +7,9 @@
 }
 
 #addIncomeDiv{
-    width: 100px;
-    height: 50px;
-    background-color: white;
-    float: right;
+    width: inherit;
+    height: 35px;
+    background-color: #fcbe91;
 }
 
 #incomeList{

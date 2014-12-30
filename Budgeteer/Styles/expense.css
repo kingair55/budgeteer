@@ -6,10 +6,9 @@
 }
 
 #addExpenseDiv{
-    width: 100px;
-    height: 50px;
-    background-color: #00ff21;
-    float: right;
+    width: inherit;
+    height: 35px;
+    background-color: #d7fcb2;
 }
 
 #expenseList{

@@ -48,6 +48,20 @@ $("#addExpense").click(function () {
     timeoutExpense = setTimeout(function () {
         $("#"+newDiv.id).css("background-color", "white");
     }, 5000);
+
+    $(".expenseEntry").on("mouseover", function () {
+        $("#editEntryModal").appendTo(this);
+        $("#editEntryModal").css("display", "block");
+        $("#editEntryModal").css("float", "right");
+
+        $("#deleteEntry").appendTo($("#editEntryModal"));
+        $("#deleteEntry").css("display", "block");
+    });
+
+    $(".expenseEntry").on("mouseout", function () {
+        $("#editEntryModal").css("display", "none");
+        $("#deleteEntry").css("display", "none");
+    });
 });
 
 $(document).on("click", "label.expenseType", function () {
@@ -144,4 +158,18 @@ $(".expenseInput").on("click", function () {
 
 $(".expenseInput").on("blur", function () {
     updateSavingsTextColor();
+});
+
+$(".expenseEntry").on("mouseover", function () {
+    $("#editEntryModal").appendTo(this);
+    $("#editEntryModal").css("display", "block");
+    $("#editEntryModal").css("float", "right");
+
+    $("#deleteEntry").appendTo($("#editEntryModal"));
+    $("#deleteEntry").css("display", "block");
+});
+
+$(".expenseEntry").on("mouseout", function () {
+    $("#editEntryModal").css("display", "none");
+    $("#deleteEntry").css("display", "none");
 });
