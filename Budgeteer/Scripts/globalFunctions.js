@@ -56,13 +56,13 @@ function UpdateValues() {
     var total = 0;
     $(".incomeInput").each(function () {
         var elem = $(this);
-        total += parseInt(elem.val().replace(/[^0-9]/g, ""));
+        total += parseInt(elem.val().replace(/[^0-9]/g, "")) || 0;
     });
     $("#totalIncomeValue").text("$" + total);
     total = 0;
     $(".expenseInput").each(function () {
         var elem = $(this);
-        total += parseInt(elem.val().replace(/[^0-9]/g, ""));
+        total += parseInt(elem.val().replace(/[^0-9]/g, "")) || 0;
     });
     $("#totalExpenseValue").text("$" + total);
 }
