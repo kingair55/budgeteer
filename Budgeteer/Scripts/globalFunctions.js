@@ -49,6 +49,7 @@ $(document).ready(function () {
 
         UpdateValues();
         updateSavingsTextColor();
+        ReSequenceEntryLabelAndInputIdIndex();
     });
 });
 
@@ -65,4 +66,37 @@ function UpdateValues() {
         total += parseInt(elem.val().replace(/[^0-9]/g, "")) || 0;
     });
     $("#totalExpenseValue").text("$" + total);
+}
+
+function ReSequenceEntryLabelAndInputIdIndex() {
+    var index = 1;
+    $(".incomeEntry").each(function () {
+        this.id = this.id.replace(/[0-9]/g, "") + index;
+        index++;
+    });
+    index = 1;
+    $(".incomeType").each(function () {
+        this.id = this.id.replace(/[0-9]/g, "") + index;
+        index++;
+    });
+    index = 1;
+    $(".incomeInput").each(function () {
+        this.id = this.id.replace(/[0-9]/g, "") + index;
+        index++;
+    });
+    index = 1;
+    $(".expenseEntry").each(function () {
+        this.id = this.id.replace(/[0-9]/g, "") + index;
+        index++;
+    });
+    index = 1;
+    $(".expenseType").each(function () {
+        this.id = this.id.replace(/[0-9]/g, "") + index;
+        index++;
+    });
+    index = 1;
+    $(".expenseInput").each(function () {
+        this.id = this.id.replace(/[0-9]/g, "") + index;
+        index++;
+    });
 }
