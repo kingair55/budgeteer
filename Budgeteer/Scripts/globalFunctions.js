@@ -36,7 +36,7 @@ $(document).ready(function () {
     document.getElementById(editEntryModal.id).appendChild(deleteEntry);
     $("#" + editEntryModal.id).css("width", "150px");
     $("#" + editEntryModal.id).css("height", "50px");
-    $("#" + editEntryModal.id).css("background-color", "#f8d3fa");
+    $("#" + editEntryModal.id).css("background-color", "#ffffff");
     $("#" + editEntryModal.id).css("display", "none");
 
     $("#deleteEntry").on("click", function () {
@@ -99,4 +99,17 @@ function ReSequenceEntryLabelAndInputIdIndex() {
         this.id = this.id.replace(/[0-9]/g, "") + index;
         index++;
     });
+}
+
+function SetCssOnMouseover(elem) {
+    $(elem).css("display", "block");
+    $(elem).css("width", "70px");
+    $(elem).css("height", "30px");
+    $(elem).css("margin-top", "10px");
+    $(elem).css("margin-left", "40px");
+    $(elem).css("margin-right", "40px");
+    $(elem).css("font-size", "16px");
+    $(elem).css("font-family", "Segoe UI");
+    $(elem).css("background-color", "#f6f6f6");
+    $(elem).css("border", "none");
 }

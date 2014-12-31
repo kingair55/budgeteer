@@ -1,59 +1,65 @@
 ﻿#headstrip{
     width: auto;
-    height: 75px;
-    background-color: #0094ff;
+    height: 50px;
+    background-color: #90c8ed;
 }
 
 #headstripContent{
     width: 1000px;
-    height: 35px;
+    height: 50px;
     margin-left: auto;
     margin-right: auto;
-}
-
-#site_name{
-    font-size: 35px;
 }
 
 #logoDiv{
     width: 250px;
     height: inherit;
-    padding-top: 20px;
     float: left;
+}
+
+#site_name{
+    width: 150px;
+    height: 30px;
+    font-size: 24px;
+    font-family: 'Segoe UI';
+    display: block;
+    margin-top: 8px;
+    margin-left: 15px;
+
 }
 
 .separatorDiv{
     width: 500px;
     height: inherit;
     float: left;
-    background-color: white;
+    background-color: transparent;
 }
 
 #loginDiv{
     width: 250px;
-    height: 75px;
+    height: 50px;
     font-size: 20px;
     float: left;
-    background-color: #ffd800;
+    background-color: transparent;
 }
 
 #loginBtn{
-    margin-top: 22px;
+    margin-top: 10px;
     margin-right: 5px;
     margin-left: 30px;
-    height: 35px;
+    height: 30px;
     width: 70px;
     background-color: #27a1f8;
     border: 0;
     border-radius: 6px;
     color: white;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 #registerBtn{
-    margin-top: 22px;
+    margin-top: 10px;
     margin-right: 5px;
-    height: 35px;
+    height: 30px;
     width: 90px;
     background-color: #27a1f8;
     border: 0;

@@ -161,12 +161,14 @@ $(".expenseInput").on("blur", function () {
 });
 
 $(".expenseEntry").on("mouseover", function () {
-    $("#editEntryModal").appendTo(this);
-    $("#editEntryModal").css("display", "block");
-    $("#editEntryModal").css("float", "right");
+    var modal = $("#editEntryModal");
+    modal.appendTo(this);
+    modal.css("display", "block");
+    modal.css("float", "right");
 
-    $("#deleteEntry").appendTo($("#editEntryModal"));
-    $("#deleteEntry").css("display", "block");
+    var deleteEntry = $("#deleteEntry");
+    deleteEntry.appendTo(modal);
+    SetCssOnMouseover(deleteEntry);
 });
 
 $(".expenseEntry").on("mouseout", function () {
