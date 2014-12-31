@@ -1,22 +1,41 @@
 ﻿#expense{
     float: left;
-    width: 500px;
+    width: 499px;
     height: inherit;
-    background-color: #ffd800;
+    background-color: #ffffff;
+    border-left-style: solid;
+    border-left-width: thin;
+    border-left-color: #bdbdbd;
 }
 
+
 #addExpenseDiv{
-    width: inherit;
+    width: 499px;
     height: 35px;
-    background-color: #d7fcb2;
+    background-color: #f6f6f6;
+}
+
+#addExpense{
+    width: 100px;
+    height: 25px;
+    margin-top: 5px;
+    font-family: 'Segoe UI';
+    float: right;
+    margin-right: 15px;
+    border-style: solid;
+    border-width: thin;
+    border-radius: 2px;
+    background-color: #ffffff;
 }
 
 #expenseList{
-    width: inherit;
+    width: 499px;
     height: 675px;
     overflow: auto;
     padding-bottom: 25px;
+    border: 0px;
 }
+
 
 #listSuggestionExpense{
     position: absolute;
@@ -31,22 +50,43 @@
 }
 
 .expenseEntry{
-    width: inherit;
+    width: 474px;
     height: 50px;
-    background-color: #808080;
+    background-color: #ffffff;
+    border: 0px;
+    padding-left: 25px;
+    background-color: #ffffff;
 }
 
 .wordsExpense{
-    width: 150px;
+    width: 149px;
 }
 
 .wordsExpense:hover{
     background-color: #85ceff;
 }
 
+.expenseType{
+    width: 200px;
+    height: 26px;
+    display: block;
+    margin-top: 12px;
+    float: left;
+    font-size: 18px;
+    font-family: 'Segoe UI';
+}
+
 .expenseInput{
-    margin-left: 5px;
-    margin-top: 10px;
-    height: 25px;
     width: 100px;
+    height: 24px;
+    float: left;
+    display: block;
+    padding-top: 0px;
+    padding-bottom: 3px;
+    margin-top: 11px;
+    font-size: 18px;
+    font-family: 'Segoe UI';
+    border-width: thin;
+    border-color: #f6f6f6;
+    border-style: solid;
 }

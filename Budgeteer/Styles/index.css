@@ -8,6 +8,7 @@
 
 #totalDiv {
     width: 850px;
+    height: 50px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -23,11 +24,13 @@
     font-size: 20px;
     color: #bdbcbc;
     margin-left: 10px;
+    font-family: 'Segoe UI';
 }
 
 #totalIncomeValue{
     font-size: 25px;
     color: #37ad15;
+    font-family: 'Segoe UI';
 }
 
 #totalExpenseDiv{
@@ -41,11 +44,13 @@
     font-size: 20px;
     color: #bdbcbc;
     margin-left: 10px;
+    font-family: 'Segoe UI';
 }
 
 #totalExpenseValue{
     font-size: 25px;
     color: red;
+    font-family: 'Segoe UI';
 }
 
 #savingsDiv {
@@ -60,8 +65,10 @@
     font-size: 20px;
     color: #bdbcbc;
     margin-left: 10px;
+    font-family: 'Segoe UI';
 }
 
 #savingsValue{
     font-size: 30px;
+    font-family: 'Segoe UI';
 }
