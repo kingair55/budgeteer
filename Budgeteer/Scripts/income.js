@@ -25,6 +25,8 @@ $("#addIncome").click(function () {
     document.getElementById(newDiv.id).appendChild(newLabel);
     document.getElementById(newDiv.id).appendChild(newInput);
 
+    $("#" + newDiv.id).css("background-color", "#cee7fa");
+
     var temp = newInput.id;
     var elem = $("#"+temp);
     elem.data("oldValue", elem.val());
@@ -46,7 +48,7 @@ $("#addIncome").click(function () {
     });
 
     timeoutIncome = setTimeout(function () {
-        $("#"+newDiv.id).css("background-color", "white");
+        $("#" + newDiv.id).css("background-color", "white");
     }, 5000);
 
     $(".incomeEntry").on("mouseover", function () {

@@ -25,6 +25,8 @@ $("#addExpense").click(function () {
     document.getElementById(newDiv.id).appendChild(newLabel);
     document.getElementById(newDiv.id).appendChild(newInput);
 
+    $("#" + newDiv.id).css("background-color", "#cee7fa");
+
     var temp = newInput.id;
     var elem = $("#"+temp);
     elem.data("oldValue", elem.val());
