@@ -69,20 +69,21 @@ $("#addExpense").click(function () {
 $(document).on("click", "label.expenseType", function () {
     var txt = $(this).text();
     labelToUpdateExpense = $(this).attr("id");
-    $(this).replaceWith("<input class=\"tempClassExpense\" />");
+    $(this).replaceWith("<input class=\"tempClassEntryExpenseLabel\" />");
+    setCssOnTempEntryExpenseLabel();
     jsInjectionExpense();
-    $("input.tempClassExpense").val(txt);
-    $("input.tempClassExpense").focus().select();
+    $("input.tempClassEntryExpenseLabel").val(txt);
+    $("input.tempClassEntryExpenseLabel").focus().select();
 });
 
-$(document).on("blur", "input.tempClassExpense", function () {
+$(document).on("blur", "input.tempClassEntryExpenseLabel", function () {
     $("#listSuggestionExpense").remove();
     listCreatedExpense = false;
     var txt = $(this).val();
     var elementCount = getElementCountByClass(".expenseType");
-    $(this).replaceWith("<label " + "id=\"" + labelToUpdateExpense + "\" " + "class=\"tempClassExpense\"></label>");
+    $(this).replaceWith("<label " + "id=\"" + labelToUpdateExpense + "\" " + "class=\"tempClassEntryExpenseLabel\"></label>");
 
-    var newLabel = $("label.tempClassExpense");
+    var newLabel = $("label.tempClassEntryExpenseLabel");
 
     if (txt != "") {
         if (lastHoveredListItemTextExpense == "")
@@ -97,7 +98,7 @@ $(document).on("blur", "input.tempClassExpense", function () {
         suggestionListExpense[newLabel.text()] = newLabel.text();
     }
 
-    newLabel.removeClass("tempClassExpense").addClass("expenseType");
+    newLabel.removeClass("tempClassEntryExpenseLabel").addClass("expenseType");
 
     labelToUpdateExpense = "";
     newlyCreatedLabelExpense = newLabel;
@@ -119,7 +120,7 @@ $(".expenseInput").each(function () {
 });
 
 function jsInjectionExpense() {
-    $("input.tempClassExpense").on("keyup", function () {
+    $("input.tempClassEntryExpenseLabel").on("keyup", function () {
         var theField = $(this);
         if (theField.val().length > 2 && hasProperty(suggestionListExpense)) {
             if (!listCreatedExpense) {
@@ -177,3 +178,14 @@ $(".expenseEntry").on("mouseout", function () {
     $("#editEntryModal").css("display", "none");
     $("#deleteEntry").css("display", "none");
 });
+
+function setCssOnTempEntryExpenseLabel() {
+    $(".tempClassEntryExpenseLabel").css("width", "186px");
+    $(".tempClassEntryExpenseLabel").css("height", "26px");
+    $(".tempClassEntryExpenseLabel").css("display", "block");
+    $(".tempClassEntryExpenseLabel").css("margin-top", "12px");
+    $(".tempClassEntryExpenseLabel").css("margin-right", "10px");
+    $(".tempClassEntryExpenseLabel").css("float", "left");
+    $(".tempClassEntryExpenseLabel").css("font-size", "18px");
+    $(".tempClassEntryExpenseLabel").css("font-family", "Segoe UI");
+}

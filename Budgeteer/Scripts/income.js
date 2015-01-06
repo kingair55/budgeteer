@@ -69,20 +69,21 @@ $("#addIncome").click(function () {
 $(document).on("click", "label.incomeType", function () {
     var txt = $(this).text();
     labelToUpdateIncome = $(this).attr("id");
-    $(this).replaceWith("<input class=\"tempClassIncome\" />");
+    $(this).replaceWith("<input class=\"tempClassEntryIncomeLabel\" />");
+    setCssOnTempEntryIncomeLabel();
     jsInjectionIncome();
-    $("input.tempClassIncome").val(txt);
-    $("input.tempClassIncome").focus().select();
+    $("input.tempClassEntryIncomeLabel").val(txt);
+    $("input.tempClassEntryIncomeLabel").focus().select();
 });
 
-$(document).on("blur", "input.tempClassIncome", function () {
+$(document).on("blur", "input.tempClassEntryIncomeLabel", function () {
     $("#listSuggestionIncome").remove();
     listCreatedIncome = false;
     var txt = $(this).val();
     var elementCount = getElementCountByClass(".incomeType");
-    $(this).replaceWith("<label " + "id=\"" + labelToUpdateIncome +  "\" " + "class=\"tempClassIncome\"></label>");
+    $(this).replaceWith("<label " + "id=\"" + labelToUpdateIncome +  "\" " + "class=\"tempClassEntryIncomeLabel\"></label>");
 
-    var newLabel = $("label.tempClassIncome");
+    var newLabel = $("label.tempClassEntryIncomeLabel");
 
     if (txt != "") {
         if (lastHoveredListItemTextIncome == "")
@@ -97,7 +98,7 @@ $(document).on("blur", "input.tempClassIncome", function () {
         suggestionListIncome[newLabel.text()] = "";
     }
 
-    newLabel.removeClass("tempClassIncome").addClass("incomeType");
+    newLabel.removeClass("tempClassEntryIncomeLabel").addClass("incomeType");
 
     labelToUpdateIncome = "";
     newlyCreatedLabelIncome = newLabel;
@@ -119,7 +120,7 @@ $(".incomeInput").each(function () {
 });
 
 function jsInjectionIncome() {
-    $("input.tempClassIncome").on("keyup", function () {
+    $("input.tempClassEntryIncomeLabel").on("keyup", function () {
         var theField = $(this);
         if (theField.val().length > 2 && hasProperty(suggestionListIncome)) {
             if (!listCreatedIncome) {
@@ -177,3 +178,14 @@ $(".incomeEntry").on("mouseout", function () {
     $("#editEntryModal").css("display", "none");
     $("#deleteEntry").css("display", "none");
 });
+
+function setCssOnTempEntryIncomeLabel() {
+    $(".tempClassEntryIncomeLabel").css("width", "186px");
+    $(".tempClassEntryIncomeLabel").css("height", "26px");
+    $(".tempClassEntryIncomeLabel").css("display", "block");
+    $(".tempClassEntryIncomeLabel").css("margin-top", "12px");
+    $(".tempClassEntryIncomeLabel").css("margin-right", "10px");
+    $(".tempClassEntryIncomeLabel").css("float", "left");
+    $(".tempClassEntryIncomeLabel").css("font-size", "18px");
+    $(".tempClassEntryIncomeLabel").css("font-family", "Segoe UI");
+}
