@@ -19,8 +19,8 @@
             </div>
             <div class="separatorDiv"></div>
             <div id="loginDiv">
-                <input type="button" id="loginBtn" value="Login" />
-                <input type="button" id="registerBtn" value="Register" />
+                <input type="button" id="loginBtn" value="Login" onclick="@("window.location.href='" + @Url.Action("Login", "Account") + "'");" />
+                <input type="button" id="registerBtn" value="Register" onclick="@("window.location.href='" + @Url.Action("Register", "Account") + "'");" />
             </div>
         </div>
     </div>
