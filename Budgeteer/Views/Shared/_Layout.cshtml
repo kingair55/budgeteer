@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -19,8 +20,21 @@
             </div>
             <div class="separatorDiv"></div>
             <div id="loginDiv">
-                <input type="button" id="loginBtn" value="Login" onclick="@("window.location.href='" + @Url.Action("Login", "Account") + "'");" />
-                <input type="button" id="registerBtn" value="Register" onclick="@("window.location.href='" + @Url.Action("Register", "Account") + "'");" />
+                @if (Request.IsAuthenticated)
+                {
+                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <label id="userName">@User.Identity.GetUserName()</label>
+                        <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+                    }
+                }
+                else
+                {
+                    <input type="button" id="loginBtn" value="Login" onclick="@("window.location.href='" + @Url.Action("Login", "Account") + "'");" />
+                    <input type="button" id="registerBtn" value="Register" onclick="@("window.location.href='" + @Url.Action("Register", "Account") + "'");" />
+                }
             </div>
         </div>
     </div>
@@ -32,6 +46,7 @@
 <footer>
     <div>
         <p>Next feature to do: Implement login and register features</p>
+        @Html.ActionLink("Contact", "Contact", "Home")
     </div>
     <script src="~/Scripts/globalFunctions.js"></script>
     <script src="~/Scripts/income.js"></script>
