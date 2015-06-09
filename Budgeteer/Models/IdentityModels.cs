@@ -29,5 +29,14 @@ namespace Budgeteer.Models
         {
             return new ApplicationDbContext();
         }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<IdentityUser>().ToTable("Users").Property(p => p.Id).HasColumnName("UserId");
+            modelBuilder.Entity<IdentityUser>().ToTable("Users").Property(p => p.UserName).HasColumnName("Username");
+            modelBuilder.Entity<ApplicationUser>().ToTable("Users").Property(p => p.Id).HasColumnName("UserId");
+        }
     }
 }
