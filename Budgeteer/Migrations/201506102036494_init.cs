@@ -36,7 +36,7 @@ namespace Budgeteer.Migrations
                 c => new
                     {
                         UserId = c.String(nullable: false, maxLength: 128),
-                        Email = c.String(),
+                        Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
                         SecurityStamp = c.String(),
@@ -46,10 +46,11 @@ namespace Budgeteer.Migrations
                         LockoutEndDateUtc = c.DateTime(),
                         LockoutEnabled = c.Boolean(nullable: false),
                         AccessFailedCount = c.Int(nullable: false),
-                        Username = c.String(),
+                        Username = c.String(nullable: false, maxLength: 256),
                         Discriminator = c.String(nullable: false, maxLength: 128),
                     })
-                .PrimaryKey(t => t.UserId);
+                .PrimaryKey(t => t.UserId)
+                .Index(t => t.Username, unique: true, name: "UserNameIndex");
             
             CreateTable(
                 "dbo.AspNetUserClaims",
@@ -88,6 +89,7 @@ namespace Budgeteer.Migrations
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropIndex("dbo.AspNetUserLogins", new[] { "IdentityUser_Id" });
             DropIndex("dbo.AspNetUserClaims", new[] { "IdentityUser_Id" });
+            DropIndex("dbo.Users", "UserNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "IdentityUser_Id" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");

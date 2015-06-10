@@ -368,7 +368,7 @@ namespace Budgeteer.Controllers
                     // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel ());
             }
         }
 
@@ -392,7 +392,7 @@ namespace Budgeteer.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { Email = model.Email, UserName = model.Email };
+                var user = new ApplicationUser { Email = model.Email, UserName = model.Username };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
