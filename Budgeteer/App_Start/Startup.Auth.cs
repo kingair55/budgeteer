@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using Budgeteer.Models;
+using Microsoft.Owin.Security.Facebook;
 
 namespace Budgeteer
 {
@@ -54,15 +55,15 @@ namespace Budgeteer
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "1500452586912053",
+               appSecret: "b82803c926772f87fd9a614d7067ab53");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "410886418868-gqtpsvbhd0gsvg3ljckf4mv25h55hkdr.apps.googleusercontent.com",
+                ClientSecret = "6YrxFteEIohnpxZgDhm8WsLH"
+            });
         }
     }
 }
