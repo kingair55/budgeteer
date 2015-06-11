@@ -7,6 +7,7 @@ using Microsoft.Owin.Security.Google;
 using Owin;
 using Budgeteer.Models;
 using Microsoft.Owin.Security.Facebook;
+using System.Configuration;
 
 namespace Budgeteer
 {
@@ -57,13 +58,13 @@ namespace Budgeteer
             //   consumerSecret: "");
 
             app.UseFacebookAuthentication(
-               appId: "1500452586912053",
-               appSecret: "b82803c926772f87fd9a614d7067ab53");
+               appId: ConfigurationManager.AppSettings["fbAppId"],
+               appSecret: ConfigurationManager.AppSettings["fbAppSecret"]);
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "410886418868-gqtpsvbhd0gsvg3ljckf4mv25h55hkdr.apps.googleusercontent.com",
-                ClientSecret = "6YrxFteEIohnpxZgDhm8WsLH"
+                ClientId = ConfigurationManager.AppSettings["googleClientId"],
+                ClientSecret = ConfigurationManager.AppSettings["googleClientSecret"]
             });
         }
     }

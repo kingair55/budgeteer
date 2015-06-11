@@ -204,6 +204,9 @@
     <Content Include="Scripts\expense.js" />
     <Content Include="Scripts\globalFunctions.js" />
     <Content Include="Scripts\income.js" />
+    <Content Include="PrivateSettings.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
