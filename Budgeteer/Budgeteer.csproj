@@ -91,6 +91,9 @@
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.105.0.1\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="SendGrid.SmtpApi">
       <HintPath>..\packages\SendGrid.SmtpApi.1.3.1\lib\net40\SendGrid.SmtpApi.dll</HintPath>
     </Reference>
@@ -165,6 +168,15 @@
     </Reference>
     <Reference Include="System.Net.Http.WebRequest">
     </Reference>
+    <Reference Include="Twilio.Api">
+      <HintPath>..\packages\Twilio.4.0.3\lib\3.5\Twilio.Api.dll</HintPath>
+    </Reference>
+    <Reference Include="Twilio.Mvc">
+      <HintPath>..\packages\Twilio.Mvc.3.1.15\lib\3.5\Twilio.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Twilio.Twiml">
+      <HintPath>..\packages\Twilio.TwiML.3.3.6\lib\3.5\Twilio.Twiml.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -174,9 +186,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201506102036494_init.cs" />
-    <Compile Include="Migrations\201506102036494_init.Designer.cs">
-      <DependentUpon>201506102036494_init.cs</DependentUpon>
+    <Compile Include="Migrations\201506111335307_initial.cs" />
+    <Compile Include="Migrations\201506111335307_initial.Designer.cs">
+      <DependentUpon>201506111335307_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -221,7 +233,9 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -260,8 +274,8 @@
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201506102036494_init.resx">
-      <DependentUpon>201506102036494_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201506111335307_initial.resx">
+      <DependentUpon>201506111335307_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

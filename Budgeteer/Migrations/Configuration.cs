@@ -1,5 +1,8 @@
 namespace Budgeteer.Migrations
 {
+    using Budgeteer.Models;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -26,6 +29,31 @@ namespace Budgeteer.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+
+            //  This method will be called after migrating to the latest version.
+
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+
+            var user = new ApplicationUser()
+            {
+                UserName = "TheAdmin",
+                Email = "admin@admin.com",
+                EmailConfirmed = true
+            };
+
+            userManager.Create(user, "Test1234@");
+
+            if (roleManager.Roles.Count() == 0)
+            {
+                roleManager.Create(new IdentityRole { Name = "Admin" });
+                roleManager.Create(new IdentityRole { Name = "User" });
+            }
+
+            var adminUser = userManager.FindByName("TheAdmin");
+
+            userManager.AddToRole(adminUser.Id, "Admin");
         }
     }
 }

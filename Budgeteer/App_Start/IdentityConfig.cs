@@ -15,6 +15,7 @@ using SendGrid;
 using System.Net;
 using System.Configuration;
 using System.Diagnostics;
+using Twilio;
 
 namespace Budgeteer
 {
@@ -61,7 +62,15 @@ namespace Budgeteer
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your SMS service here to send a text message.
+            string AccountSid = "ACebb8ab02ba2fc1942a5ab9e80a3eb7be";
+            string AuthToken = "dfab1e6a50080bcd56a07f01fe280be7";
+            string twilioPhoneNumber = "+353766801050";
+
+            var twilio = new TwilioRestClient(AccountSid, AuthToken);
+
+            twilio.SendSmsMessage(twilioPhoneNumber, message.Destination, message.Body);
+
+            // Twilio does not return an async Task, so we need this:
             return Task.FromResult(0);
         }
     }
@@ -119,6 +128,21 @@ namespace Budgeteer
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
+        }
+    }
+
+    public class ApplicationRoleManager : RoleManager<IdentityRole>
+    {
+        public ApplicationRoleManager(IRoleStore<IdentityRole, string> roleStore)
+            : base(roleStore)
+        {
+        }
+
+        public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
+        {
+            var appRoleManager = new ApplicationRoleManager(new RoleStore<IdentityRole>(context.Get<ApplicationDbContext>()));
+
+            return appRoleManager;
         }
     }
 
