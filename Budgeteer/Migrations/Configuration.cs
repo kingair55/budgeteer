@@ -4,6 +4,7 @@ namespace Budgeteer.Migrations
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using System;
+    using System.Configuration;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
@@ -38,12 +39,12 @@ namespace Budgeteer.Migrations
 
             var user = new ApplicationUser()
             {
-                UserName = "TheAdmin",
-                Email = "admin@admin.com",
+                UserName = ConfigurationManager.AppSettings["seedDataAdminUsername"],
+                Email = ConfigurationManager.AppSettings["seedDataAdminEmail"],
                 EmailConfirmed = true
             };
 
-            userManager.Create(user, "Test1234@");
+            userManager.Create(user, ConfigurationManager.AppSettings["seedDataAdminPassword"]);
 
             if (roleManager.Roles.Count() == 0)
             {
@@ -51,7 +52,7 @@ namespace Budgeteer.Migrations
                 roleManager.Create(new IdentityRole { Name = "User" });
             }
 
-            var adminUser = userManager.FindByName("TheAdmin");
+            var adminUser = userManager.FindByName(ConfigurationManager.AppSettings["seedDataAdminUsername"]);
 
             userManager.AddToRole(adminUser.Id, "Admin");
         }
