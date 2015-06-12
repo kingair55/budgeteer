@@ -62,9 +62,9 @@ namespace Budgeteer
     {
         public Task SendAsync(IdentityMessage message)
         {
-            string AccountSid = "ACebb8ab02ba2fc1942a5ab9e80a3eb7be";
-            string AuthToken = "dfab1e6a50080bcd56a07f01fe280be7";
-            string twilioPhoneNumber = "+353766801050";
+            string AccountSid = ConfigurationManager.AppSettings["twilioAccountSid"];
+            string AuthToken = ConfigurationManager.AppSettings["twilioAuthToken"];
+            string twilioPhoneNumber = ConfigurationManager.AppSettings["twilioPhoneNumber"]; ;
 
             var twilio = new TwilioRestClient(AccountSid, AuthToken);
 
