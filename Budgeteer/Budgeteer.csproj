@@ -187,9 +187,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201506111335307_initial.cs" />
-    <Compile Include="Migrations\201506111335307_initial.Designer.cs">
-      <DependentUpon>201506111335307_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201506152002144_initial.cs" />
+    <Compile Include="Migrations\201506152002144_initial.Designer.cs">
+      <DependentUpon>201506152002144_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -285,8 +285,8 @@
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201506111335307_initial.resx">
-      <DependentUpon>201506111335307_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201506152002144_initial.resx">
+      <DependentUpon>201506152002144_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
