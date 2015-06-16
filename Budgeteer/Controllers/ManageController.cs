@@ -118,41 +118,47 @@ namespace Budgeteer.Controllers
                     Destination = model.Number,
                     Body = "Your security code is: " + code
                 };
+                //await UserManager.SmsService.SendAsync(message);
+                //UserManager.SendSms(User.Identity.GetUserId(), message.Body);
+                //UserManager.SmsService.Send(message);
+                //await UserManager.SmsService.SendAsync(message);
+                //UserManager.SmsService.Send(message);
+                //UserManager.SendSmsAsync(User.Identity.GetUserId(), message.Body);
                 await UserManager.SmsService.SendAsync(message);
 
                 // Uncomment to debug locally 
-                TempData["ViewBagCode"] = message.Body.ToString();
+                //TempData["ViewBagCode"] = message.Body.ToString();
             }
             return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
         }
 
-//
-// POST: /Manage/EnableTwoFactorAuthentication
-[HttpPost,ValidateAntiForgeryToken]
-public async Task<ActionResult> EnableTwoFactorAuthentication()
-{
-    await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), true);
-    var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-    if (user != null)
-    {
-        await SignInAsync(user, isPersistent: false);
-    }
-    return RedirectToAction("Index", "Manage");
-}
+        //
+        // POST: /Manage/EnableTwoFactorAuthentication
+        [HttpPost,ValidateAntiForgeryToken]
+        public async Task<ActionResult> EnableTwoFactorAuthentication()
+        {
+            await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), true);
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            if (user != null)
+            {
+                await SignInAsync(user, isPersistent: false);
+            }
+            return RedirectToAction("Index", "Manage");
+        }
 
-//
-// POST: /Manage/DisableTwoFactorAuthentication
-[HttpPost, ValidateAntiForgeryToken]
-public async Task<ActionResult> DisableTwoFactorAuthentication()
-{
-    await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), false);
-    var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-    if (user != null)
-    {
-        await SignInAsync(user, isPersistent: false);
-    }
-    return RedirectToAction("Index", "Manage");
-}
+        //
+        // POST: /Manage/DisableTwoFactorAuthentication
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<ActionResult> DisableTwoFactorAuthentication()
+        {
+            await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), false);
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            if (user != null)
+            {
+                await SignInAsync(user, isPersistent: false);
+            }
+            return RedirectToAction("Index", "Manage");
+        }
 
         //
         // GET: /Manage/VerifyPhoneNumber

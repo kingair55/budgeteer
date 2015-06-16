@@ -68,7 +68,9 @@ namespace Budgeteer
 
             var twilio = new TwilioRestClient(AccountSid, AuthToken);
 
-            twilio.SendSmsMessage(twilioPhoneNumber, message.Destination, message.Body);
+            var result = twilio.SendSmsMessage(twilioPhoneNumber, message.Destination, message.Body);
+
+            Trace.WriteLine(result.Status);
 
             // Twilio does not return an async Task, so we need this:
             return Task.FromResult(0);
