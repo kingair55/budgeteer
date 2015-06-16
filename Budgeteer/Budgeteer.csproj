@@ -187,9 +187,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201506152002144_initial.cs" />
-    <Compile Include="Migrations\201506152002144_initial.Designer.cs">
-      <DependentUpon>201506152002144_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201506162029392_initial.cs" />
+    <Compile Include="Migrations\201506162029392_initial.Designer.cs">
+      <DependentUpon>201506162029392_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -239,6 +239,8 @@
     <Content Include="Views\Manage\ManageLogins.cshtml" />
     <Content Include="Views\Manage\SetPassword.cshtml" />
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -285,8 +287,8 @@
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201506152002144_initial.resx">
-      <DependentUpon>201506152002144_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201506162029392_initial.resx">
+      <DependentUpon>201506162029392_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -34,9 +34,16 @@ namespace Budgeteer.Models
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<IdentityUser>().ToTable("Users").Property(p => p.Id).HasColumnName("UserId");
-            modelBuilder.Entity<IdentityUser>().ToTable("Users").Property(p => p.UserName).HasColumnName("Username");
             modelBuilder.Entity<ApplicationUser>().ToTable("Users").Property(p => p.Id).HasColumnName("UserId");
+            modelBuilder.Entity<ApplicationUser>().ToTable("Users").Property(p => p.UserName).HasColumnName("Username");
+
+            modelBuilder.Entity<IdentityUserRole>().ToTable("UserRole").HasKey(p => new { p.RoleId, p.UserId });
+
+            modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogin").HasKey(p => new { p.LoginProvider, p.ProviderKey, p.UserId });
+
+            modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaim").HasKey(p => p.Id).Property(p => p.Id).HasColumnName("UserClaimId");
+
+            modelBuilder.Entity<IdentityRole>().ToTable("Role").Property(p => p.Id).HasColumnName("RoleId");
         }
     }
 }

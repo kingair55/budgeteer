@@ -13,7 +13,7 @@ namespace Budgeteer.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201506111335307_initial"; }
+            get { return "201506162029392_initial"; }
         }
         
         string IMigrationMetadata.Source
