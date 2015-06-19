@@ -64,7 +64,14 @@ $("#addIncome").click(function () {
         $("#editEntryModal").css("display", "none");
         $("#deleteEntry").css("display", "none");
     });
+
+    AddEntry();
 });
+
+function AddEntry() {
+    var url = "/Home/AddEntry";
+    $.post(url, { type: "", name: "", value: 0, month: 0,  year: 0});
+}
 
 $(document).on("click", "label.incomeType", function () {
     var txt = $(this).text();

@@ -17,6 +17,12 @@ namespace Budgeteer.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult AddEntry(string type, string name, int value, int month, int year)
+        {
+
+        }
+
         [Authorize]
         public ActionResult Contact()
         {
