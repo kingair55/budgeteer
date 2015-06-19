@@ -113,3 +113,17 @@ function SetCssOnMouseover(elem) {
     $(elem).css("background-color", "#f6f6f6");
     $(elem).css("border", "none");
 }
+
+function AttachMonthListDiv(elem) {
+    var newDiv = document.createElement("div");
+    newDiv.className = "monthListDiv";
+    $(newDiv).insertAfter($(elem));
+}
+
+//$("#monthDiv").click(AttachMonthListDiv(this));
+
+$("#monthDiv").click(function () {
+    var newDiv = document.createElement("div");
+    $(newDiv).addClass("monthListDiv");
+    $(newDiv).appendTo(this);
+});

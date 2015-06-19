@@ -72,3 +72,40 @@
     font-size: 30px;
     font-family: 'Segoe UI';
 }
+
+#dateDiv{
+    clear: both;
+    background-color: lightblue;
+    height: 40px;
+    width: inherit;
+}
+
+#dateFrequencyDiv{
+    height: inherit;
+    width: 200px;
+    float: left;
+    background-color: aqua;
+}
+
+#monthDiv{
+    height: inherit;
+    width: 300px;
+    float: left;
+    background-color: lightgreen;
+}
+
+#yearDiv{
+    height: inherit;
+    width: 300px;
+    float: left;
+    background-color: lightgray;
+}
+
+.monthListDiv{
+    width: 150px;
+    height: 200px;
+    background: white;
+    z-index: 9999;
+    position: relative;
+    top: 20px;
+}
