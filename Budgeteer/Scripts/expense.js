@@ -70,7 +70,7 @@ $("#addExpense").click(function () {
 
 function AddEntry() {
     var url = "/Home/AddEntry";
-    $.post(url, { type: "", name: "", value: 0, month: 0, year: 0 });
+    $.post(url, { type: "", year: 0, month: 0, position: 0, name: "", value: 0 });
 }
 
 $(document).on("click", "label.expenseType", function () {
