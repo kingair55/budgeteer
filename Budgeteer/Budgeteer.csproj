@@ -184,6 +184,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="DAL\BudgeteerContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -195,6 +196,22 @@
     <Compile Include="Migrations\201506221445139_addEntryTable.Designer.cs">
       <DependentUpon>201506221445139_addEntryTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201506230930519_changedVariableTypeOfEntryPropertyCalledType.cs" />
+    <Compile Include="Migrations\201506230930519_changedVariableTypeOfEntryPropertyCalledType.Designer.cs">
+      <DependentUpon>201506230930519_changedVariableTypeOfEntryPropertyCalledType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506231031141_changedVariableTypeOfEntryFieldCalledEntryId.cs" />
+    <Compile Include="Migrations\201506231031141_changedVariableTypeOfEntryFieldCalledEntryId.Designer.cs">
+      <DependentUpon>201506231031141_changedVariableTypeOfEntryFieldCalledEntryId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506231047313_temporarilyRemovedEntryInModel.cs" />
+    <Compile Include="Migrations\201506231047313_temporarilyRemovedEntryInModel.Designer.cs">
+      <DependentUpon>201506231047313_temporarilyRemovedEntryInModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506231056244_addedEntryTableBack.cs" />
+    <Compile Include="Migrations\201506231056244_addedEntryTableBack.Designer.cs">
+      <DependentUpon>201506231056244_addedEntryTableBack.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Entry.cs" />
@@ -202,6 +219,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utilities\Enums\EntryTypeEnum.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -297,6 +315,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201506221445139_addEntryTable.resx">
       <DependentUpon>201506221445139_addEntryTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506230930519_changedVariableTypeOfEntryPropertyCalledType.resx">
+      <DependentUpon>201506230930519_changedVariableTypeOfEntryPropertyCalledType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506231031141_changedVariableTypeOfEntryFieldCalledEntryId.resx">
+      <DependentUpon>201506231031141_changedVariableTypeOfEntryFieldCalledEntryId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506231047313_temporarilyRemovedEntryInModel.resx">
+      <DependentUpon>201506231047313_temporarilyRemovedEntryInModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506231056244_addedEntryTableBack.resx">
+      <DependentUpon>201506231056244_addedEntryTableBack.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

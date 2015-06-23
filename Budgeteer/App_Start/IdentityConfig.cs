@@ -16,6 +16,7 @@ using System.Net;
 using System.Configuration;
 using System.Diagnostics;
 using Twilio;
+using Budgeteer.DAL;
 
 namespace Budgeteer
 {
@@ -87,7 +88,7 @@ namespace Budgeteer
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
-            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
+            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<BudgeteerDbContext>()));
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {
@@ -142,7 +143,7 @@ namespace Budgeteer
 
         public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
         {
-            var appRoleManager = new ApplicationRoleManager(new RoleStore<IdentityRole>(context.Get<ApplicationDbContext>()));
+            var appRoleManager = new ApplicationRoleManager(new RoleStore<IdentityRole>(context.Get<BudgeteerDbContext>()));
 
             return appRoleManager;
         }

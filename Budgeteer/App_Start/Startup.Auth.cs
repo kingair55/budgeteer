@@ -8,6 +8,7 @@ using Owin;
 using Budgeteer.Models;
 using Microsoft.Owin.Security.Facebook;
 using System.Configuration;
+using Budgeteer.DAL;
 
 namespace Budgeteer
 {
@@ -17,7 +18,7 @@ namespace Budgeteer
         public void ConfigureAuth(IAppBuilder app)
         {
             // Configure the db context, user manager and signin manager to use a single instance per request
-            app.CreatePerOwinContext(ApplicationDbContext.Create);
+            app.CreatePerOwinContext(BudgeteerDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
             app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);

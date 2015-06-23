@@ -18,36 +18,4 @@ namespace Budgeteer.Models
             return userIdentity;
         }
     }
-
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
-    {
-        public DbSet<Entry> Entries { get; set; }
-
-        public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
-        {
-        }
-
-        public static ApplicationDbContext Create()
-        {
-            return new ApplicationDbContext();
-        }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-
-            modelBuilder.Entity<ApplicationUser>().ToTable("Users").Property(p => p.Id).HasColumnName("UserId");
-            modelBuilder.Entity<ApplicationUser>().ToTable("Users").Property(p => p.UserName).HasColumnName("Username");
-
-            modelBuilder.Entity<IdentityUserRole>().ToTable("UserRole").HasKey(p => new { p.RoleId, p.UserId });
-
-            modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogin").HasKey(p => new { p.LoginProvider, p.ProviderKey, p.UserId });
-
-            modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaim").HasKey(p => p.Id).Property(p => p.Id).HasColumnName("UserClaimId");
-
-            modelBuilder.Entity<IdentityRole>().ToTable("Role").Property(p => p.Id).HasColumnName("RoleId");
-        }
-    }
 }
