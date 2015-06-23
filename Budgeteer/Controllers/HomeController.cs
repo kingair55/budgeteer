@@ -30,11 +30,11 @@ namespace Budgeteer.Controllers
         }
 
         [HttpPost]
-        public JsonResult AddEntry(int type, int year, int month, int position, string name, int value)
+        public JsonResult AddEntry(int type, int year, int month, int position, string name, int value, string username)
         {
-            DbContext.Entries.Add(new Entry { Type = (EntryType)1, Year = year, Month = month, Position = position, Name = name, Value = value });
+            DbContext.Entries.Add(new Entry { UserId = DbContext.Users.FirstOrDefault(u => u.UserName.Equals(username)).Id, Type = (EntryType)1, Year = year, Month = month, Position = position, Name = name, Value = value });
             var result = DbContext.SaveChanges();
-            return Json("asd");
+            return Json(result == 1 ? "success" : "failure");
         }
 
         [Authorize]

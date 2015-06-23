@@ -70,7 +70,9 @@ $("#addIncome").click(function () {
 
 function AddEntry() {
     var url = "/Home/AddEntry";
-    $.post(url, { type: 1, year: 0, month: 0, position: 0, name: "", value: 0 }, function () { /*call verification here*/ }, "json"); //1 = Income based from EntryType enum
+    var username = $("#username").text();
+    var usernameLength = username.length;
+    $.post(url, { type: 1, year: 0, month: 0, position: 0, name: "", value: 0, username: username.substring(6, usernameLength-1) }, function (result) { alert(result); }, "json"); //1 = Income based from EntryType enum
 }
 
 $(document).on("click", "label.incomeType", function () {
