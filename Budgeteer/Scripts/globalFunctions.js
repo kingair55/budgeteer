@@ -51,7 +51,33 @@ $(document).ready(function () {
         updateSavingsTextColor();
         ReSequenceEntryLabelAndInputIdIndex();
     });
+
+    var totalIncome = GetTotal(".incomeInput");
+    if (totalIncome > 0)
+        $("#totalIncomeValue").text("$" + totalIncome);
+    else
+        totalIncome = parseInt($("#totalIncomeValue").text());
+
+    var totalExpense = GetTotal(".expenseInput");
+    if (totalExpense > 0)
+        $("#totalExpenseValue").text("$" + totalExpense);
+    else
+        totalExpense = parseInt($("#totalIncomeValue").text());
+
+    if (totalIncome > 0 || totalExpense > 0) {
+        $("#savingsValue").text("$" + (totalIncome + totalExpense));
+
+        updateSavingsTextColor();
+    }
 });
+
+function GetTotal(entryClass) {
+    var total = 0;
+    $(entryClass).each(function () {
+        total += parseInt(this.value);
+    });
+    return total;
+}
 
 function UpdateValues() {
     var total = 0;

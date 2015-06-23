@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Budgeteer.Models.HomepageViewModel
+@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -26,6 +27,6 @@
             <label id="totalExpenseValue">$0</label><label id="totalExpenseLabel"> expense</label>
         </div>
     </div>
-    @RenderPage("~/Views/Shared/_Income.cshtml")
-    @RenderPage("~/Views/Shared/_Expense.cshtml")
+    @RenderPage("~/Views/Shared/_Income.cshtml", new { Entries = Model ?? null })
+    @RenderPage("~/Views/Shared/_Expense.cshtml", new { Entries = Model ?? null })
 </div>

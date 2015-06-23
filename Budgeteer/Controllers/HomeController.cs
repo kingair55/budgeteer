@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Budgeteer.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,9 +13,10 @@ namespace Budgeteer.Controllers
         //
         // GET: /Home/
 
-        public ActionResult Index()
+        public ActionResult Index(HomepageViewModel model)
         {
-            return View();
+            model = (HomepageViewModel)TempData["viewModel"];
+            return View(model);
         }
 
         [HttpPost]

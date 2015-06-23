@@ -60,8 +60,8 @@ namespace Budgeteer.Migrations
             userManager.AddToRole(adminUser.Id, "Admin");
 
             var entries = new List<Entry>{
-                new Entry { Type = EntryType.Income, Year = 2015, Month = 6, Position = 0,  Name = "Salary", Value = 3000 },
-                new Entry { Type = EntryType.Expense, Year = 2015, Month = 6, Position = 0,  Name = "Rent", Value = 1000 }
+                new Entry { UserId = adminUser.Id, Type = EntryType.Income, Year = 2015, Month = 6, Position = 0,  Name = "Salary", Value = 3000 },
+                new Entry { UserId = adminUser.Id, Type = EntryType.Expense, Year = 2015, Month = 6, Position = 0,  Name = "Rent", Value = 1000 }
             };
 
             entries.ForEach(e => context.Entries.AddOrUpdate(e));

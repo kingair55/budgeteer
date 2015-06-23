@@ -1,10 +1,26 @@
 ﻿<div id="expense">
     <div id="expenseList">
-        <div id="addExpenseDiv">
-            <input type="button" id="addExpense" value="Add Expense" />
-        </div>
-        <div id="expenseDiv1" class="expenseEntry">
-            <label id="expenseLabel1" class="expenseType">Click to edit</label><input id="expenseField1" class="expenseInput" type="text" value="Expense" />
-        </div>
+        @if (PageData["Entries"] == null)
+        {
+            <div id="addExpenseDiv">
+                <input type="button" id="addExpense" value="Add Expense" />
+            </div>
+            <div id="expenseDiv1" class="expenseEntry">
+                <label id="expenseLabel1" class="expenseType">Click to edit</label><input id="expenseField1" class="expenseInput" type="text" value="Expense" />
+            </div>
+        }
+        else
+        {
+            foreach (Budgeteer.Models.Entry entry in PageData["Entries"].Entries)
+            {
+                if (!entry.Type.Equals(Budgeteer.Utilities.Enums.EntryType.Expense)) { continue; }
+                <div id="addExpenseDiv">
+                    <input type="button" id="addExpense" value="Add Expense" />
+                </div>
+                <div id="expenseDiv1" class="expenseEntry">
+                    <label id="expenseLabel1" class="expenseType">@entry.Name</label><input id="expenseField1" class="expenseInput" type="text" value="@entry.Value" />
+                </div>
+            }
+        }
     </div>
 </div>

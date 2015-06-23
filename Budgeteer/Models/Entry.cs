@@ -14,6 +14,7 @@ namespace Budgeteer.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid EntryId { get; set; }
 
+        public string UserId { get; set; }
         public EntryType Type { get; set; }
         public int Year { get; set; }
         public int Month { get; set; }

@@ -212,9 +212,14 @@
     <Compile Include="Migrations\201506231056244_addedEntryTableBack.Designer.cs">
       <DependentUpon>201506231056244_addedEntryTableBack.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201506231133338_addedUserIdFieldInEntryModel.cs" />
+    <Compile Include="Migrations\201506231133338_addedUserIdFieldInEntryModel.Designer.cs">
+      <DependentUpon>201506231133338_addedUserIdFieldInEntryModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Entry.cs" />
+    <Compile Include="Models\HomepageViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -327,6 +332,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201506231056244_addedEntryTableBack.resx">
       <DependentUpon>201506231056244_addedEntryTableBack.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506231133338_addedUserIdFieldInEntryModel.resx">
+      <DependentUpon>201506231133338_addedUserIdFieldInEntryModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

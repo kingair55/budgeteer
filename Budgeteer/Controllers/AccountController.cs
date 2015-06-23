@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Budgeteer.Models;
+using Budgeteer.DAL;
 
 namespace Budgeteer.Controllers
 {
@@ -26,6 +27,14 @@ namespace Budgeteer.Controllers
         {
             UserManager = userManager;
             SignInManager = signInManager;
+        }
+
+        public BudgeteerDbContext DbContext
+        {
+            get
+            {
+                return new BudgeteerDbContext();
+            }
         }
 
         public ApplicationUserManager UserManager
@@ -105,7 +114,10 @@ namespace Budgeteer.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    var viewModel = new HomepageViewModel();
+                    viewModel.Entries = DbContext.Entries.Where(e => e.UserId.Equals(user.Id)).ToList();
+                    TempData["viewModel"] = viewModel;
+                    return RedirectToAction("Index", "Home");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
