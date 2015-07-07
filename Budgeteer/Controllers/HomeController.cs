@@ -61,6 +61,20 @@ namespace Budgeteer.Controllers
             return Json(result == 1 ? "success" : "failure");
         }
 
+        [HttpPost]
+        public JsonResult DeleteEntry(int type, int position, string username)
+        {
+            BudgeteerDbContext DbContext = new BudgeteerDbContext();
+            var userId = DbContext.Users.First(u => u.UserName == username).Id;
+            var entryToDelete = DbContext.Entries.First(e => e.Type == (EntryType)type && e.Position == position && e.UserId == userId);
+
+            DbContext.Entries.Remove(entryToDelete);
+            
+            var result = DbContext.SaveChanges();
+
+            return Json(result == 1 ? "success" : "failure");
+        }
+
         [Authorize]
         public ActionResult Contact()
         {

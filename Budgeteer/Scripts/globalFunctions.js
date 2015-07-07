@@ -42,6 +42,22 @@ $(document).ready(function () {
     $("#deleteEntry").on("click", function () {
         var entryToDelete = $(this).parent().parent();
         $("#editEntryModal").appendTo($("#incomeList"));
+
+        var url = "/Home/DeleteEntry";
+        var type = 0;
+        var entryPosition = 0;
+        var username = $("#username").text();
+        var usernameLength = username.length;
+
+        if (entryToDelete.attr("id").indexOf("income") > -1)
+            type = 1;
+        else
+            type = 2;
+
+        entryPosition = parseInt(entryToDelete.attr("id").slice(-1));
+
+        $.post(url, { type: type, position: entryPosition, username: username.substring(6, usernameLength - 1) }, function (result) { alert(result); }, "json");
+
         entryToDelete.remove();
 
         $("#editEntryModal").css("display", "none");
