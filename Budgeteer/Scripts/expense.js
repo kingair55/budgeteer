@@ -4,6 +4,7 @@ var labelToUpdateExpense = "";
 var newlyCreatedLabelExpense;
 var lastHoveredListItemTextExpense = "";
 var timeoutExpense;
+var monthMap = { 'January': 1, 'February': 2, 'March': 3, 'April': 4, 'May': 5, 'June': 6, 'July': 7, 'August': 8, 'September': 8, 'October': 10, 'November': 11, 'December': 12 };
 
 $("#addExpense").click(function () {
     var linebreak = document.createElement("br");
@@ -45,6 +46,7 @@ $("#addExpense").click(function () {
 
     elem.on("blur", function () {
         updateSavingsTextColor();
+        updateExpenseEntry(this);
     });
 
     timeoutExpense = setTimeout(function () {
@@ -65,12 +67,34 @@ $("#addExpense").click(function () {
         $("#deleteEntry").css("display", "none");
     });
 
-    AddEntry();
+    AddExpenseEntry(elementCount);
 });
 
-function AddEntry() {
+function AddExpenseEntry(entryPosition) {
     var url = "/Home/AddEntry";
-    $.post(url, { type: "", year: 0, month: 0, position: 0, name: "", value: 0 });
+    var username = $("#username").text();
+    var usernameLength = username.length;
+    var entryYear = $("#lblYear").text();
+    var entryMonth = $("#lblMonth").text();
+
+    $.post(url, { type: 2, year: parseInt(entryYear), month: monthMap[entryMonth], position: entryPosition, name: "", value: 0, username: username.substring(6, usernameLength - 1) }, function (result) { alert(result); }, "json"); //2 = Expense based from EntryType enum
+}
+
+function updateExpenseEntry(elem) {
+    var url = "/Home/UpdateEntry";
+    var entryPosition = 0;
+    var name = "";
+    var value = 0;
+    var username = $("#username").text();
+    var usernameLength = username.length;
+    var entryId = $(elem).attr("id");
+    entryPosition = parseInt(entryId.slice(-1));
+
+    name = $("#" + "expenseLabel" + entryPosition).text();
+    value = parseInt($("#" + "expenseField" + entryPosition).val()) || -1;
+
+    if (name != "Click to edit" && value > 0)
+        $.post(url, { type: 2, position: entryPosition, name: name, value: value, username: username.substring(6, usernameLength - 1) }, function (result) { alert(result); }, "json");
 }
 
 $(document).on("click", "label.expenseType", function () {
@@ -110,6 +134,8 @@ $(document).on("blur", "input.tempClassEntryExpenseLabel", function () {
     labelToUpdateExpense = "";
     newlyCreatedLabelExpense = newLabel;
     lastHoveredListItemTextExpense = "";
+
+    updateExpenseEntry(newLabel);
 });
 
 $(".expenseInput").each(function () {
@@ -168,6 +194,7 @@ $(".expenseInput").on("click", function () {
 
 $(".expenseInput").on("blur", function () {
     updateSavingsTextColor();
+    updateExpenseEntry(this);
 });
 
 $(".expenseEntry").on("mouseover", function () {

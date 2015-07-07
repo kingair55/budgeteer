@@ -4,6 +4,8 @@ var labelToUpdateIncome = "";
 var newlyCreatedLabelIncome;
 var lastHoveredListItemTextIncome = "";
 var timeoutIncome;
+var monthMap = { 'January': 1, 'February': 2, 'March': 3, 'April': 4, 'May': 5, 'June': 6, 'July': 7, 'August': 8, 'September': 8, 'October': 10, 'November': 11, 'December': 12 };
+
 
 $("#addIncome").click(function () {
     var linebreak = document.createElement("br");
@@ -45,6 +47,7 @@ $("#addIncome").click(function () {
     
     elem.on("blur", function () {
         updateSavingsTextColor();
+        updateIncomeEntry(this);
     });
 
     timeoutIncome = setTimeout(function () {
@@ -65,14 +68,17 @@ $("#addIncome").click(function () {
         $("#deleteEntry").css("display", "none");
     });
 
-    AddEntry();
+    AddIncomeEntry(elementCount);
 });
 
-function AddEntry() {
+function AddIncomeEntry(entryPosition) {
     var url = "/Home/AddEntry";
     var username = $("#username").text();
     var usernameLength = username.length;
-    $.post(url, { type: 1, year: 0, month: 0, position: 0, name: "", value: 0, username: username.substring(6, usernameLength-1) }, function (result) { alert(result); }, "json"); //1 = Income based from EntryType enum
+    var entryYear = $("#lblYear").text();
+    var entryMonth = $("#lblMonth").text();
+
+    $.post(url, { type: 1, year: parseInt(entryYear), month: monthMap[entryMonth], position: entryPosition, name: "", value: 0, username: username.substring(6, usernameLength - 1) }, function (result) { alert(result); }, "json"); //1 = Income based from EntryType enum
 }
 
 $(document).on("click", "label.incomeType", function () {
@@ -84,6 +90,23 @@ $(document).on("click", "label.incomeType", function () {
     $("input.tempClassEntryIncomeLabel").val(txt);
     $("input.tempClassEntryIncomeLabel").focus().select();
 });
+
+function updateIncomeEntry(elem) {
+    var url = "/Home/UpdateEntry";
+    var entryPosition = 0;
+    var name = "";
+    var value = 0;
+    var username = $("#username").text();
+    var usernameLength = username.length;
+    var entryId = $(elem).attr("id");
+    entryPosition = parseInt(entryId.slice(-1));
+
+    name = $("#" + "incomeLabel" + entryPosition).text();
+    value = parseInt($("#" + "incomeField" + entryPosition).val()) || -1;
+
+    if (name != "Click to edit" && value > 0)
+        $.post(url, { type: 1, position: entryPosition, name: name, value: value, username: username.substring(6, usernameLength - 1) }, function (result) { alert(result); }, "json");
+}
 
 $(document).on("blur", "input.tempClassEntryIncomeLabel", function () {
     $("#listSuggestionIncome").remove();
@@ -112,6 +135,8 @@ $(document).on("blur", "input.tempClassEntryIncomeLabel", function () {
     labelToUpdateIncome = "";
     newlyCreatedLabelIncome = newLabel;
     lastHoveredListItemTextIncome = "";
+
+    updateIncomeEntry(newLabel);
 });
 
 $(".incomeInput").each(function () {
@@ -170,6 +195,7 @@ $(".incomeInput").on("click", function () {
 
 $(".incomeInput").on("blur", function () {
     updateSavingsTextColor();
+    updateIncomeEntry(this);
 });
 
 $(".incomeEntry").on("mouseover", function () {
