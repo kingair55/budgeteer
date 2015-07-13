@@ -14,14 +14,6 @@ namespace Budgeteer.Controllers
     [RequireHttps]
     public class HomeController : Controller
     {
-        //public BudgeteerDbContext DbContext
-        //{
-        //    get
-        //    {
-        //        return new BudgeteerDbContext();
-        //    }
-        //}
-        //
         // GET: /Home/
 
         public ActionResult Index()
@@ -47,6 +39,8 @@ namespace Budgeteer.Controllers
 
             return View(viewModel);
         }
+
+        public ActionResult Update
 
         [HttpPost]
         public JsonResult AddEntry(int type, int year, int month, int position, string name, int value, string username)

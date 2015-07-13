@@ -1,4 +1,6 @@
-﻿function updateSavingsTextColor() {
+﻿var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+function updateSavingsTextColor() {
     var income = parseInt($("#" + "totalIncomeValue").text().replace(/[^0-9]/g, ""));
     var expense = parseInt($("#" + "totalExpenseValue").text().replace(/[^0-9]/g, ""));
     var savings = income - expense;
@@ -156,16 +158,39 @@ function SetCssOnMouseover(elem) {
     $(elem).css("border", "none");
 }
 
-function AttachMonthListDiv(elem) {
-    var newDiv = document.createElement("div");
-    newDiv.className = "monthListDiv";
-    $(newDiv).insertAfter($(elem));
-}
-
-//$("#monthDiv").click(AttachMonthListDiv(this));
-
 $("#monthDiv").click(function () {
+    if ($("#monthListPopupDiv").length) {
+        $("#monthListPopupDiv").remove();
+        return;
+    }
+
     var newDiv = document.createElement("div");
+    newDiv.setAttribute("id", "monthListPopupDiv")
+    var newList = document.createElement("ul");
+
+    for(var x = 0; x < months.length; x++)
+    {
+        var newItem = document.createElement("li");
+        var textNode = document.createTextNode(months[x]);
+        newItem.appendChild(textNode);
+        $(newItem).addClass("monthItem");
+
+        if (months[x] == $("#lblMonth").text()) {
+            $(newItem).removeClass();
+            $(newItem).addClass("monthItemSelected");
+        }
+
+        $(newItem).on("click", function () {
+            $(document.getElementsByClassName("monthItemSelected")).removeClass().addClass("monthItem");
+            $(this).addClass("monthItemSelected");
+            $("#lblMonth").text($(this).text());
+        });
+
+        newList.appendChild(newItem);
+    }
+    $(newList).addClass("monthList");
+    newDiv.appendChild(newList);
     $(newDiv).addClass("monthListDiv");
     $(newDiv).appendTo(this);
 });
+
