@@ -4,6 +4,7 @@ using Budgeteer.Utilities.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
@@ -23,10 +24,28 @@ namespace Budgeteer.Controllers
         //
         // GET: /Home/
 
-        public ActionResult Index(HomepageViewModel model)
+        public ActionResult Index()
         {
-            model = (HomepageViewModel)TempData["viewModel"];
-            return View(model);
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            var userId = string.Empty;
+            Claim userIdClaim = null;
+            var viewModel = new HomepageViewModel();
+            var DbContext = new BudgeteerDbContext();
+
+            if (claimsIdentity != null)
+            {
+                // the principal identity is a claims identity.
+                // now we need to find the NameIdentifier claim
+                userIdClaim = claimsIdentity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+
+                if (userIdClaim != null)
+                {
+                    userId = userIdClaim.Value;
+                }
+            }            
+            viewModel.Entries = DbContext.Entries.Where(e => e.UserId.Equals(userId)).ToList();
+
+            return View(viewModel);
         }
 
         [HttpPost]

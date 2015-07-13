@@ -114,9 +114,6 @@ namespace Budgeteer.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    var viewModel = new HomepageViewModel();
-                    viewModel.Entries = DbContext.Entries.Where(e => e.UserId.Equals(user.Id)).ToList();
-                    TempData["viewModel"] = viewModel;
                     return RedirectToAction("Index", "Home");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
