@@ -1,4 +1,17 @@
 ﻿var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+var monthToNumberMap = {};
+monthToNumberMap["January"] = 1;
+monthToNumberMap["February"] = 2;
+monthToNumberMap["March"] = 3;
+monthToNumberMap["April"] = 4;
+monthToNumberMap["May"] = 5;
+monthToNumberMap["June"] = 6;
+monthToNumberMap["July"] = 7;
+monthToNumberMap["August"] = 8;
+monthToNumberMap["September"] = 9;
+monthToNumberMap["October"] = 10;
+monthToNumberMap["November"] = 11;
+monthToNumberMap["December"] = 12;
 
 function updateSavingsTextColor() {
     var income = parseInt($("#" + "totalIncomeValue").text().replace(/[^0-9]/g, ""));
@@ -70,23 +83,7 @@ $(document).ready(function () {
         ReSequenceEntryLabelAndInputIdIndex();
     });
 
-    var totalIncome = GetTotal(".incomeInput");
-    if (totalIncome > 0)
-        $("#totalIncomeValue").text("$" + totalIncome);
-    else
-        totalIncome = parseInt($("#totalIncomeValue").text());
-
-    var totalExpense = GetTotal(".expenseInput");
-    if (totalExpense > 0)
-        $("#totalExpenseValue").text("$" + totalExpense);
-    else
-        totalExpense = parseInt($("#totalIncomeValue").text());
-
-    if (totalIncome > 0 || totalExpense > 0) {
-        $("#savingsValue").text("$" + (totalIncome + totalExpense));
-
-        updateSavingsTextColor();
-    }
+    SetTotalDiv();
 });
 
 function GetTotal(entryClass) {
@@ -184,6 +181,16 @@ $("#monthDiv").click(function () {
             $(document.getElementsByClassName("monthItemSelected")).removeClass().addClass("monthItem");
             $(this).addClass("monthItemSelected");
             $("#lblMonth").text($(this).text());
+
+            $.ajax({
+                url: "/Home/UpdateEntries",
+                type: "GET",
+                data: { month: monthToNumberMap[$("#lblMonth").text()], year: 2015 }
+            })
+            .done(function (partialViewResult) {
+                $("#userDataDiv").html(partialViewResult).animate({}, "2000");
+                SetTotalDiv();
+            });
         });
 
         newList.appendChild(newItem);
@@ -194,3 +201,23 @@ $("#monthDiv").click(function () {
     $(newDiv).appendTo(this);
 });
 
+function SetTotalDiv()
+{
+    var totalIncome = GetTotal(".incomeInput");
+    if (totalIncome > 0)
+        $("#totalIncomeValue").text("$" + totalIncome);
+    else
+        totalIncome = parseInt($("#totalIncomeValue").text());
+
+    var totalExpense = GetTotal(".expenseInput");
+    if (totalExpense > 0)
+        $("#totalExpenseValue").text("$" + totalExpense);
+    else
+        totalExpense = parseInt($("#totalIncomeValue").text());
+
+    if (totalIncome > 0 || totalExpense > 0) {
+        $("#savingsValue").text("$" + (totalIncome + totalExpense));
+
+        updateSavingsTextColor();
+    }
+}

@@ -11,11 +11,11 @@
             <span class="arrow"></span>
         </div>
         <div id="monthDiv">
-            <label id="lblMonth">September</label>
+            <label id="lblMonth">@DateTime.Now.ToString("MMMM", System.Globalization.CultureInfo.InvariantCulture)</label>
             <span class="arrow"></span>
         </div>
         <div id="yearDiv">
-            <label id="lblYear">2015</label>
+            <label id="lblYear">@DateTime.Now.Year</label>
             <span class="arrow"></span>
         </div>
     </div>

@@ -35,12 +35,34 @@ namespace Budgeteer.Controllers
                     userId = userIdClaim.Value;
                 }
             }            
-            viewModel.Entries = DbContext.Entries.Where(e => e.UserId.Equals(userId)).ToList();
+            viewModel.Entries = DbContext.Entries.Where(e => e.UserId.Equals(userId) && e.Month == DateTime.Now.Month && e.Year == DateTime.Now.Year).ToList();
 
             return View(viewModel);
         }
 
-        public ActionResult Update
+        public ActionResult UpdateEntries(int month, int year)
+        {
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            var userId = string.Empty;
+            Claim userIdClaim = null;
+            var viewModel = new HomepageViewModel();
+            var DbContext = new BudgeteerDbContext();
+
+            if (claimsIdentity != null)
+            {
+                // the principal identity is a claims identity.
+                // now we need to find the NameIdentifier claim
+                userIdClaim = claimsIdentity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+
+                if (userIdClaim != null)
+                {
+                    userId = userIdClaim.Value;
+                }
+            }
+            viewModel.Entries = DbContext.Entries.Where(e => e.UserId.Equals(userId) && e.Month == month && e.Year == year).ToList();
+
+            return PartialView("_UserData", viewModel);
+        }
 
         [HttpPost]
         public JsonResult AddEntry(int type, int year, int month, int position, string name, int value, string username)

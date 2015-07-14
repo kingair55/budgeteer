@@ -61,7 +61,16 @@ namespace Budgeteer.Migrations
 
             var entries = new List<Entry>{
                 new Entry { UserId = adminUser.Id, Type = EntryType.Income, Year = 2015, Month = 6, Position = 1,  Name = "Salary", Value = 3000 },
-                new Entry { UserId = adminUser.Id, Type = EntryType.Expense, Year = 2015, Month = 6, Position = 1,  Name = "Rent", Value = 1000 }
+                new Entry { UserId = adminUser.Id, Type = EntryType.Expense, Year = 2015, Month = 6, Position = 1,  Name = "Rent", Value = 1000 },
+                
+                new Entry { UserId = adminUser.Id, Type = EntryType.Income, Year = 2015, Month = 1, Position = 1,  Name = "Salary", Value = 1000 },
+                new Entry { UserId = adminUser.Id, Type = EntryType.Income, Year = 2015, Month = 1, Position = 2,  Name = "Savings", Value = 500 },
+                
+                new Entry { UserId = adminUser.Id, Type = EntryType.Income, Year = 2015, Month = 3, Position = 1,  Name = "Salary", Value = 3000 },
+                new Entry { UserId = adminUser.Id, Type = EntryType.Expense, Year = 2015, Month = 3, Position = 1,  Name = "Food", Value = 500 },
+                
+                new Entry { UserId = adminUser.Id, Type = EntryType.Expense, Year = 2015, Month = 10, Position = 1,  Name = "Fuel", Value = 100 },
+                new Entry { UserId = adminUser.Id, Type = EntryType.Expense, Year = 2015, Month = 10, Position = 2,  Name = "Cinema", Value = 20 }
             };
 
             entries.ForEach(e => context.Entries.AddOrUpdate(e));
