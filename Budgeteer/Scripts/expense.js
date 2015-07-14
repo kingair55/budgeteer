@@ -85,6 +85,8 @@ function updateExpenseEntry(elem) {
     var entryPosition = 0;
     var name = "";
     var value = 0;
+    var month = monthToNumberMap[$("#lblMonth").text()];
+    var year = parseInt($("#lblYear").text());
     var username = $("#username").text();
     var usernameLength = username.length;
     var entryId = $(elem).attr("id");
@@ -94,7 +96,7 @@ function updateExpenseEntry(elem) {
     value = parseInt($("#" + "expenseField" + entryPosition).val()) || -1;
 
     if (name != "Click to edit" && value > 0)
-        $.post(url, { type: 2, position: entryPosition, name: name, value: value, username: username.substring(6, usernameLength - 1) }, function (result) { alert(result); }, "json");
+        $.post(url, { year: year, month: month, type: 2, position: entryPosition, name: name, value: value, username: username.substring(6, usernameLength - 1) }, function (result) { alert(result); }, "json");
 }
 
 $(document).on("click", "label.expenseType", function () {

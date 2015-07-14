@@ -44,7 +44,7 @@ $("#addIncome").click(function () {
     elem.on("click", function () {
         $(this).focus().select();
     });
-    
+
     elem.on("blur", function () {
         updateSavingsTextColor();
         updateIncomeEntry(this);
@@ -60,15 +60,16 @@ $("#addIncome").click(function () {
         $("#editEntryModal").css("float", "right");
 
         $("#deleteEntry").appendTo($("#editEntryModal"));
-        $("#deleteEntry").css("display", "block");
+        SetCssOnMouseover($("#deleteEntry"));
     });
 
     $(".incomeEntry").on("mouseout", function () {
         $("#editEntryModal").css("display", "none");
         $("#deleteEntry").css("display", "none");
     });
-
-    AddIncomeEntry(elementCount);
+    
+    if($("#username").length > 0)
+        AddIncomeEntry(elementCount);
 });
 
 function AddIncomeEntry(entryPosition) {
@@ -78,7 +79,10 @@ function AddIncomeEntry(entryPosition) {
     var entryYear = $("#lblYear").text();
     var entryMonth = $("#lblMonth").text();
 
-    $.post(url, { type: 1, year: parseInt(entryYear), month: monthMap[entryMonth], position: entryPosition, name: "", value: 0, username: username.substring(6, usernameLength - 1) }, function (result) { alert(result); }, "json"); //1 = Income based from EntryType enum
+    $.post(url,
+            { type: 1, year: parseInt(entryYear), month: monthMap[entryMonth], position: entryPosition, name: "", value: 0, username: username.substring(6, usernameLength - 1) },
+            function (result) { alert(result); },
+            "json"); //1 = Income based from EntryType enum
 }
 
 $(document).on("click", "label.incomeType", function () {
@@ -96,6 +100,8 @@ function updateIncomeEntry(elem) {
     var entryPosition = 0;
     var name = "";
     var value = 0;
+    var month = monthToNumberMap[$("#lblMonth").text()];
+    var year = parseInt($("#lblYear").text());
     var username = $("#username").text();
     var usernameLength = username.length;
     var entryId = $(elem).attr("id");
@@ -105,7 +111,7 @@ function updateIncomeEntry(elem) {
     value = parseInt($("#" + "incomeField" + entryPosition).val()) || -1;
 
     if (name != "Click to edit" && value > 0)
-        $.post(url, { type: 1, position: entryPosition, name: name, value: value, username: username.substring(6, usernameLength - 1) }, function (result) { alert(result); }, "json");
+        $.post(url, { year: year, month: month, type: 1, position: entryPosition, name: name, value: value, username: username.substring(6, usernameLength - 1) }, function (result) { alert(result); }, "json");
 }
 
 $(document).on("blur", "input.tempClassEntryIncomeLabel", function () {
@@ -224,3 +230,96 @@ function setCssOnTempEntryIncomeLabel() {
     $(".tempClassEntryIncomeLabel").css("font-size", "18px");
     $(".tempClassEntryIncomeLabel").css("font-family", "Segoe UI");
 }
+
+//function AttachIncomeEventListeners(elem, newDiv) {
+//    elem.on("propertychange change click keyup input paste", function (event) {
+//        if (elem.data("oldValue") != elem.val()) {
+//            var total = parseInt($("#totalIncomeValue").atext().replace(/[^0-9]/g, "")) || 0;
+//            total = (total - (parseInt(elem.data("oldValue")) || 0)) + (parseInt(elem.val()) || 0);
+//            elem.data("oldValue", elem.val());
+//            $("#totalIncomeValue").text("$" + total);
+//        }
+//    });
+
+//    elem.on("click", function () {
+//        $(this).focus().select();
+//    });
+
+//    elem.on("blur", function () {
+//        updateSavingsTextColor();
+//        updateIncomeEntry(this);
+//    });
+
+//    timeoutIncome = setTimeout(function () {
+//        $("#" + newDiv.id).css("background-color", "white");
+//    }, 5000);
+
+//    $(".incomeEntry").on("mouseover", function () {
+//        $("#editEntryModal").appendTo(this);
+//        $("#editEntryModal").css("display", "block");
+//        $("#editEntryModal").css("float", "right");
+
+//        $("#deleteEntry").appendTo($("#editEntryModal"));
+//        SetCssOnMouseover($("#deleteEntry"));
+//    });
+
+//    $(".incomeEntry").on("mouseout", function () {
+//        $("#editEntryModal").css("display", "none");
+//        $("#deleteEntry").css("display", "none");
+//    });
+
+//    $(document).on("click", "label.incomeType", function () {
+//        var txt = $(this).text();
+//        labelToUpdateIncome = $(this).attr("id");
+//        $(this).replaceWith("<input class=\"tempClassEntryIncomeLabel\" />");
+//        setCssOnTempEntryIncomeLabel();
+//        jsInjectionIncome();
+//        $("input.tempClassEntryIncomeLabel").val(txt);
+//        $("input.tempClassEntryIncomeLabel").focus().select();
+//    });
+
+//    $(document).on("blur", "input.tempClassEntryIncomeLabel", function () {
+//        $("#listSuggestionIncome").remove();
+//        listCreatedIncome = false;
+//        var txt = $(this).val();
+//        var elementCount = getElementCountByClass(".incomeType");
+//        $(this).replaceWith("<label " + "id=\"" + labelToUpdateIncome + "\" " + "class=\"tempClassEntryIncomeLabel\"></label>");
+
+//        var newLabel = $("label.tempClassEntryIncomeLabel");
+
+//        if (txt != "") {
+//            if (lastHoveredListItemTextIncome == "")
+//                newLabel.text(txt);
+//            else
+//                newLabel.text(lastHoveredListItemTextIncome);
+//        }
+//        else
+//            newLabel.text("Click to edit");
+
+//        if (newLabel.text() != "Click to edit" && !(newLabel.text() in suggestionListIncome)) {
+//            suggestionListIncome[newLabel.text()] = "";
+//        }
+
+//        newLabel.removeClass("tempClassEntryIncomeLabel").addClass("incomeType");
+
+//        labelToUpdateIncome = "";
+//        newlyCreatedLabelIncome = newLabel;
+//        lastHoveredListItemTextIncome = "";
+
+//        updateIncomeEntry(newLabel);
+//    });
+
+//    $(".incomeInput").each(function () {
+//        var elem = $(this);
+//        elem.data("oldValue", elem.val());
+
+//        elem.on("propertychange change click keyup input paste", function (event) {
+//            if (elem.data("oldValue") != elem.val()) {
+//                var total = parseInt($("#totalIncomeValue").text().replace(/[^0-9]/g, "")) || 0;
+//                total = (total - (parseInt(elem.data("oldValue")) || 0)) + (parseInt(elem.val()) || 0);
+//                elem.data("oldValue", elem.val());
+//                $("#totalIncomeValue").text("$" + total);
+//            }
+//        });
+//    });
+//}

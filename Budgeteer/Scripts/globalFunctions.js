@@ -59,6 +59,8 @@ $(document).ready(function () {
         $("#editEntryModal").appendTo($("#incomeList"));
 
         var url = "/Home/DeleteEntry";
+        var month = monthToNumberMap[$("#lblMonth").text()];
+        var year = parseInt($("#lblYear").text());
         var type = 0;
         var entryPosition = 0;
         var username = $("#username").text();
@@ -71,7 +73,7 @@ $(document).ready(function () {
 
         entryPosition = parseInt(entryToDelete.attr("id").slice(-1));
 
-        $.post(url, { type: type, position: entryPosition, username: username.substring(6, usernameLength - 1) }, function (result) { alert(result); }, "json");
+        $.post(url, { year: year, month: month, type: type, position: entryPosition, username: username.substring(6, usernameLength - 1) }, function (result) { alert(result); }, "json");
 
         entryToDelete.remove();
 
@@ -83,7 +85,7 @@ $(document).ready(function () {
         ReSequenceEntryLabelAndInputIdIndex();
     });
 
-    SetTotalDiv();
+    SetValuesInTotalDiv();
 });
 
 function GetTotal(entryClass) {
@@ -168,8 +170,9 @@ $("#monthDiv").click(function () {
     for(var x = 0; x < months.length; x++)
     {
         var newItem = document.createElement("li");
-        var textNode = document.createTextNode(months[x]);
-        newItem.appendChild(textNode);
+        var labelMonth = document.createElement("label");
+        $(labelMonth).text(months[x]);
+        newItem.appendChild(labelMonth);
         $(newItem).addClass("monthItem");
 
         if (months[x] == $("#lblMonth").text()) {
@@ -189,7 +192,8 @@ $("#monthDiv").click(function () {
             })
             .done(function (partialViewResult) {
                 $("#userDataDiv").html(partialViewResult).animate({}, "2000");
-                SetTotalDiv();
+                SetValuesInTotalDiv();
+                ReattachIncomeEventListeners();
             });
         });
 
@@ -201,7 +205,7 @@ $("#monthDiv").click(function () {
     $(newDiv).appendTo(this);
 });
 
-function SetTotalDiv()
+function SetValuesInTotalDiv()
 {
     var totalIncome = GetTotal(".incomeInput");
     if (totalIncome > 0)
@@ -220,4 +224,143 @@ function SetTotalDiv()
 
         updateSavingsTextColor();
     }
+}
+
+function ReattachIncomeEventListeners() {
+    $(".incomeEntry").each(function (index, value) {
+        $(this).css("background-color", "white");
+
+        $(this).on("mouseover", function () {
+            $("#editEntryModal").appendTo(this);
+            $("#editEntryModal").css("display", "block");
+            $("#editEntryModal").css("float", "right");
+
+            $("#deleteEntry").appendTo($("#editEntryModal"));
+            SetCssOnMouseover($("#deleteEntry"));
+        });
+
+        $(this).on("mouseout", function () {
+            $("#editEntryModal").css("display", "none");
+            $("#deleteEntry").css("display", "none");
+        });
+    });
+
+    $(".incomeInput").each(function (index, value) {
+        var elem = $(this);
+        elem.data("oldValue", elem.val());
+        elem.on("propertychange change click keyup input paste", function (event) {
+            if (elem.data("oldValue") != elem.val()) {
+                var total = parseInt($("#totalIncomeValue").text().replace(/[^0-9]/g, "")) || 0;
+                total = (total - (parseInt(elem.data("oldValue")) || 0)) + (parseInt(elem.val()) || 0);
+                elem.data("oldValue", elem.val());
+                $("#totalIncomeValue").text("$" + total);
+            }
+        });
+
+        elem.on("click", function () {
+            $(this).focus().select();
+        });
+
+        elem.on("blur", function () {
+            updateSavingsTextColor();
+            updateIncomeEntry(this);
+        });
+    });
+
+    $("#addIncome").click(function () {
+        var linebreak = document.createElement("br");
+        var newDiv = document.createElement("div");
+        var newLabel = document.createElement("label");
+        var newInput = document.createElement("input");
+        var elementCount = parseInt(getElementCountByClass(".incomeType")) + parseInt("1");
+        newDiv.id = "incomeDiv" + elementCount;
+        newDiv.className = "incomeEntry";
+        newLabel.id = "incomeLabel" + elementCount;
+        newLabel.className = "incomeType";
+        newLabel.innerText = "Click to edit";
+        newInput.id = "incomeField" + elementCount;
+        newInput.className = "incomeInput";
+        newInput.type = "text";
+        newInput.value = "Income";
+
+        document.getElementById("incomeList").appendChild(newDiv);
+        document.getElementById(newDiv.id).appendChild(newLabel);
+        document.getElementById(newDiv.id).appendChild(newInput);
+
+        $("#" + newDiv.id).css("background-color", "#cee7fa");
+
+        var temp = newInput.id;
+        var elem = $("#" + temp);
+        elem.data("oldValue", elem.val());
+        elem.on("propertychange change click keyup input paste", function (event) {
+            if (elem.data("oldValue") != elem.val()) {
+                var total = parseInt($("#totalIncomeValue").text().replace(/[^0-9]/g, "")) || 0;
+                total = (total - (parseInt(elem.data("oldValue")) || 0)) + (parseInt(elem.val()) || 0);
+                elem.data("oldValue", elem.val());
+                $("#totalIncomeValue").text("$" + total);
+            }
+        });
+
+        elem.on("click", function () {
+            $(this).focus().select();
+        });
+
+        elem.on("blur", function () {
+            updateSavingsTextColor();
+            updateIncomeEntry(this);
+        });
+
+        timeoutIncome = setTimeout(function () {
+            $("#" + newDiv.id).css("background-color", "white");
+        }, 5000);
+
+        $(".incomeEntry").on("mouseover", function () {
+            $("#editEntryModal").appendTo(this);
+            $("#editEntryModal").css("display", "block");
+            $("#editEntryModal").css("float", "right");
+
+            $("#deleteEntry").appendTo($("#editEntryModal"));
+            SetCssOnMouseover($("#deleteEntry"));
+        });
+
+        $(".incomeEntry").on("mouseout", function () {
+            $("#editEntryModal").css("display", "none");
+            $("#deleteEntry").css("display", "none");
+        });
+
+        if ($("#username").length > 0)
+            AddIncomeEntry(elementCount);
+    });
+}
+
+function updateIncomeEntry(elem) {
+    var url = "/Home/UpdateEntry";
+    var entryPosition = 0;
+    var name = "";
+    var value = 0;
+    var month = monthToNumberMap[$("#lblMonth").text()];
+    var year = parseInt($("#lblYear").text());
+    var username = $("#username").text();
+    var usernameLength = username.length;
+    var entryId = $(elem).attr("id");
+    entryPosition = parseInt(entryId.slice(-1));
+
+    name = $("#" + "incomeLabel" + entryPosition).text();
+    value = parseInt($("#" + "incomeField" + entryPosition).val()) || -1;
+
+    if (name != "Click to edit" && value > 0)
+        $.post(url, { year: year, month: month, type: 1, position: entryPosition, name: name, value: value, username: username.substring(6, usernameLength - 1) }, function (result) { alert(result); }, "json");
+}
+
+function AddIncomeEntry(entryPosition) {
+    var url = "/Home/AddEntry";
+    var username = $("#username").text();
+    var usernameLength = username.length;
+    var entryYear = $("#lblYear").text();
+    var entryMonth = $("#lblMonth").text();
+
+    $.post(url,
+            { type: 1, year: parseInt(entryYear), month: monthMap[entryMonth], position: entryPosition, name: "", value: 0, username: username.substring(6, usernameLength - 1) },
+            function (result) { alert(result); },
+            "json"); //1 = Income based from EntryType enum
 }

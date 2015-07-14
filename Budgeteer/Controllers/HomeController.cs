@@ -97,11 +97,11 @@ namespace Budgeteer.Controllers
         }
 
         [HttpPost]
-        public JsonResult DeleteEntry(int type, int position, string username)
+        public JsonResult DeleteEntry(int year, int month, int type, int position, string username)
         {
             BudgeteerDbContext DbContext = new BudgeteerDbContext();
             var userId = DbContext.Users.First(u => u.UserName == username).Id;
-            var entryToDelete = DbContext.Entries.First(e => e.Type == (EntryType)type && e.Position == position && e.UserId == userId);
+            var entryToDelete = DbContext.Entries.First(e => e.Year == year && e.Month == month && e.Type == (EntryType)type && e.Position == position && e.UserId == userId);
 
             DbContext.Entries.Remove(entryToDelete);
             
