@@ -59,7 +59,7 @@ $("#addExpense").click(function () {
         $("#editEntryModal").css("float", "right");
 
         $("#deleteEntry").appendTo($("#editEntryModal"));
-        $("#deleteEntry").css("display", "block");
+        SetCssOnMouseover($("#deleteEntry"));
     });
 
     $(".expenseEntry").on("mouseout", function () {
@@ -67,7 +67,8 @@ $("#addExpense").click(function () {
         $("#deleteEntry").css("display", "none");
     });
 
-    AddExpenseEntry(elementCount);
+    if ($("#username").length > 0)
+        AddExpenseEntry(elementCount);
 });
 
 function AddExpenseEntry(entryPosition) {
@@ -77,8 +78,21 @@ function AddExpenseEntry(entryPosition) {
     var entryYear = $("#lblYear").text();
     var entryMonth = $("#lblMonth").text();
 
-    $.post(url, { type: 2, year: parseInt(entryYear), month: monthMap[entryMonth], position: entryPosition, name: "", value: 0, username: username.substring(6, usernameLength - 1) }, function (result) { alert(result); }, "json"); //2 = Expense based from EntryType enum
+    $.post(url,
+            { type: 2, year: parseInt(entryYear), month: monthMap[entryMonth], position: entryPosition, name: "", value: 0, username: username.substring(6, usernameLength - 1) },
+            function (result) { alert(result); },
+            "json"); //2 = Expense based from EntryType enum
 }
+
+$(document).on("click", "label.expenseType", function () {
+    var txt = $(this).text();
+    labelToUpdateExpense = $(this).attr("id");
+    $(this).replaceWith("<input class=\"tempClassEntryExpenseLabel\" />");
+    setCssOnTempEntryExpenseLabel();
+    jsInjectionExpense();
+    $("input.tempClassEntryExpenseLabel").val(txt);
+    $("input.tempClassEntryExpenseLabel").focus().select();
+});
 
 function updateExpenseEntry(elem) {
     var url = "/Home/UpdateEntry";
@@ -96,18 +110,11 @@ function updateExpenseEntry(elem) {
     value = parseInt($("#" + "expenseField" + entryPosition).val()) || -1;
 
     if (name != "Click to edit" && value > 0)
-        $.post(url, { year: year, month: month, type: 2, position: entryPosition, name: name, value: value, username: username.substring(6, usernameLength - 1) }, function (result) { alert(result); }, "json");
+        $.post(url,
+                { year: year, month: month, type: 2, position: entryPosition, name: name, value: value, username: username.substring(6, usernameLength - 1) },
+                function (result) { alert(result); },
+                "json");
 }
-
-$(document).on("click", "label.expenseType", function () {
-    var txt = $(this).text();
-    labelToUpdateExpense = $(this).attr("id");
-    $(this).replaceWith("<input class=\"tempClassEntryExpenseLabel\" />");
-    setCssOnTempEntryExpenseLabel();
-    jsInjectionExpense();
-    $("input.tempClassEntryExpenseLabel").val(txt);
-    $("input.tempClassEntryExpenseLabel").focus().select();
-});
 
 $(document).on("blur", "input.tempClassEntryExpenseLabel", function () {
     $("#listSuggestionExpense").remove();

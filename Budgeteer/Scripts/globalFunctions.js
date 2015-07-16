@@ -1,17 +1,17 @@
 ﻿var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 var monthToNumberMap = {};
-monthToNumberMap["January"] = 1;
-monthToNumberMap["February"] = 2;
-monthToNumberMap["March"] = 3;
-monthToNumberMap["April"] = 4;
-monthToNumberMap["May"] = 5;
-monthToNumberMap["June"] = 6;
-monthToNumberMap["July"] = 7;
-monthToNumberMap["August"] = 8;
-monthToNumberMap["September"] = 9;
-monthToNumberMap["October"] = 10;
-monthToNumberMap["November"] = 11;
-monthToNumberMap["December"] = 12;
+monthToNumberMap[months[0]] = 1;
+monthToNumberMap[months[1]] = 2;
+monthToNumberMap[months[2]] = 3;
+monthToNumberMap[months[3]] = 4;
+monthToNumberMap[months[4]] = 5;
+monthToNumberMap[months[5]] = 6;
+monthToNumberMap[months[6]] = 7;
+monthToNumberMap[months[7]] = 8;
+monthToNumberMap[months[8]] = 9;
+monthToNumberMap[months[9]] = 10;
+monthToNumberMap[months[10]] = 11;
+monthToNumberMap[months[11]] = 12;
 
 function updateSavingsTextColor() {
     var income = parseInt($("#" + "totalIncomeValue").text().replace(/[^0-9]/g, ""));
@@ -39,21 +39,15 @@ function getElementCountByClass(elementClass) {
 }
 
 $(document).ready(function () {
-    var editEntryModal = document.createElement("div");
-    editEntryModal.id = "editEntryModal";
-    document.getElementById("incomeList").appendChild(editEntryModal);
+    SetEditEntryModal();
 
-    var deleteEntry = document.createElement("input");
-    deleteEntry.id = "deleteEntry";
-    deleteEntry.type = "button";
-    deleteEntry.value = "Delete";
+    AttachClickEventToDeleteEntryIncome();
+    AttachClickEventToDeleteEntryExpense();
 
-    document.getElementById(editEntryModal.id).appendChild(deleteEntry);
-    $("#" + editEntryModal.id).css("width", "150px");
-    $("#" + editEntryModal.id).css("height", "50px");
-    $("#" + editEntryModal.id).css("background-color", "#ffffff");
-    $("#" + editEntryModal.id).css("display", "none");
+    SetValuesInTotalDiv();
+});
 
+function AttachClickEventToDeleteEntryIncome() {
     $("#deleteEntry").on("click", function () {
         var entryToDelete = $(this).parent().parent();
         $("#editEntryModal").appendTo($("#incomeList"));
@@ -84,9 +78,57 @@ $(document).ready(function () {
         updateSavingsTextColor();
         ReSequenceEntryLabelAndInputIdIndex();
     });
+}
 
-    SetValuesInTotalDiv();
-});
+function AttachClickEventToDeleteEntryExpense() {
+    $("#deleteEntry").on("click", function () {
+        var entryToDelete = $(this).parent().parent();
+        $("#editEntryModal").appendTo($("#expenseList"));
+
+        var url = "/Home/DeleteEntry";
+        var month = monthToNumberMap[$("#lblMonth").text()];
+        var year = parseInt($("#lblYear").text());
+        var type = 0;
+        var entryPosition = 0;
+        var username = $("#username").text();
+        var usernameLength = username.length;
+
+        if (entryToDelete.attr("id").indexOf("expense") > -1)
+            type = 1;
+        else
+            type = 2;
+
+        entryPosition = parseInt(entryToDelete.attr("id").slice(-1));
+
+        $.post(url, { year: year, month: month, type: type, position: entryPosition, username: username.substring(6, usernameLength - 1) }, function (result) { alert(result); }, "json");
+
+        entryToDelete.remove();
+
+        $("#editEntryModal").css("display", "none");
+        $("#deleteEntry").css("display", "none");
+
+        UpdateValues();
+        updateSavingsTextColor();
+        ReSequenceEntryLabelAndInputIdIndex();
+    });
+}
+
+function SetEditEntryModal() {
+    var editEntryModal = document.createElement("div");
+    editEntryModal.id = "editEntryModal";
+    document.getElementById("incomeList").appendChild(editEntryModal);
+
+    var deleteEntry = document.createElement("input");
+    deleteEntry.id = "deleteEntry";
+    deleteEntry.type = "button";
+    deleteEntry.value = "Delete";
+
+    document.getElementById(editEntryModal.id).appendChild(deleteEntry);
+    $("#" + editEntryModal.id).css("width", "150px");
+    $("#" + editEntryModal.id).css("height", "50px");
+    $("#" + editEntryModal.id).css("background-color", "#ffffff");
+    $("#" + editEntryModal.id).css("display", "none");
+}
 
 function GetTotal(entryClass) {
     var total = 0;
@@ -194,6 +236,7 @@ $("#monthDiv").click(function () {
                 $("#userDataDiv").html(partialViewResult).animate({}, "2000");
                 SetValuesInTotalDiv();
                 ReattachIncomeEventListeners();
+                ReattachExpenseEventListeners();
             });
         });
 
@@ -227,7 +270,10 @@ function SetValuesInTotalDiv()
 }
 
 function ReattachIncomeEventListeners() {
-    $(".incomeEntry").each(function (index, value) {
+    SetEditEntryModal();
+    AttachClickEventToDeleteEntryIncome();
+
+    $(".incomeEntry").each(function (index, obj) {
         $(this).css("background-color", "white");
 
         $(this).on("mouseover", function () {
@@ -245,7 +291,7 @@ function ReattachIncomeEventListeners() {
         });
     });
 
-    $(".incomeInput").each(function (index, value) {
+    $(".incomeInput").each(function (index, obj) {
         var elem = $(this);
         elem.data("oldValue", elem.val());
         elem.on("propertychange change click keyup input paste", function (event) {
@@ -363,4 +409,149 @@ function AddIncomeEntry(entryPosition) {
             { type: 1, year: parseInt(entryYear), month: monthMap[entryMonth], position: entryPosition, name: "", value: 0, username: username.substring(6, usernameLength - 1) },
             function (result) { alert(result); },
             "json"); //1 = Income based from EntryType enum
+}
+
+function ReattachExpenseEventListeners() {
+    SetEditEntryModal();
+    AttachClickEventToDeleteEntryExpense();
+
+    $(".expenseEntry").each(function (index, obj) {
+        $(this).css("background-color", "white");
+
+        $(this).on("mouseover", function () {
+            $("#editEntryModal").appendTo(this);
+            $("#editEntryModal").css("display", "block");
+            $("#editEntryModal").css("float", "right");
+
+            $("#deleteEntry").appendTo($("#editEntryModal"));
+            SetCssOnMouseover($("#deleteEntry"));
+        });
+
+        $(this).on("mouseout", function () {
+            $("#editEntryModal").css("display", "none");
+            $("#deleteEntry").css("display", "none");
+        });
+    });
+
+    $(".expenseInput").each(function (index, obj) {
+        var elem = $(this);
+        elem.data("oldValue", elem.val());
+        elem.on("propertychange change click keyup input paste", function (event) {
+            if (elem.data("oldValue") != elem.val()) {
+                var total = parseInt($("#totalExpenseValue").text().replace(/[^0-9]/g, "")) || 0;
+                total = (total - (parseInt(elem.data("oldValue")) || 0)) + (parseInt(elem.val()) || 0);
+                elem.data("oldValue", elem.val());
+                $("#totalExpenseValue").text("$" + total);
+            }
+        });
+
+        elem.on("click", function () {
+            $(this).focus().select();
+        });
+
+        elem.on("blur", function () {
+            updateSavingsTextColor();
+            updateExpenseEntry(this);
+        });
+    });
+
+    $("#addExpense").click(function () {
+        var linebreak = document.createElement("br");
+        var newDiv = document.createElement("div");
+        var newLabel = document.createElement("label");
+        var newInput = document.createElement("input");
+        var elementCount = parseInt(getElementCountByClass(".expenseType")) + parseInt("1");
+        newDiv.id = "expenseDiv" + elementCount;
+        newDiv.className = "expenseEntry";
+        newLabel.id = "expenseLabel" + elementCount;
+        newLabel.className = "expenseType";
+        newLabel.innerText = "Click to edit";
+        newInput.id = "expenseField" + elementCount;
+        newInput.className = "expenseInput";
+        newInput.type = "text";
+        newInput.value = "Expense";
+
+        document.getElementById("expenseList").appendChild(newDiv);
+        document.getElementById(newDiv.id).appendChild(newLabel);
+        document.getElementById(newDiv.id).appendChild(newInput);
+
+        $("#" + newDiv.id).css("background-color", "#cee7fa");
+
+        var temp = newInput.id;
+        var elem = $("#" + temp);
+        elem.data("oldValue", elem.val());
+        elem.on("propertychange change click keyup input paste", function (event) {
+            if (elem.data("oldValue") != elem.val()) {
+                var total = parseInt($("#totalExpenseValue").text().replace(/[^0-9]/g, "")) || 0;
+                total = (total - (parseInt(elem.data("oldValue")) || 0)) + (parseInt(elem.val()) || 0);
+                elem.data("oldValue", elem.val());
+                $("#totalExpenseValue").text("$" + total);
+            }
+        });
+
+        elem.on("click", function () {
+            $(this).focus().select();
+        });
+
+        elem.on("blur", function () {
+            updateSavingsTextColor();
+            updateExpenseEntry(this);
+        });
+
+        timeoutExpense = setTimeout(function () {
+            $("#" + newDiv.id).css("background-color", "white");
+        }, 5000);
+
+        $(".expenseEntry").on("mouseover", function () {
+            $("#editEntryModal").appendTo(this);
+            $("#editEntryModal").css("display", "block");
+            $("#editEntryModal").css("float", "right");
+
+            $("#deleteEntry").appendTo($("#editEntryModal"));
+            SetCssOnMouseover($("#deleteEntry"));
+        });
+
+        $(".expenseEntry").on("mouseout", function () {
+            $("#editEntryModal").css("display", "none");
+            $("#deleteEntry").css("display", "none");
+        });
+
+        if ($("#username").length > 0)
+            AddExpenseEntry(elementCount);
+    });
+}
+
+function AddExpenseEntry(entryPosition) {
+    var url = "/Home/AddEntry";
+    var username = $("#username").text();
+    var usernameLength = username.length;
+    var entryYear = $("#lblYear").text();
+    var entryMonth = $("#lblMonth").text();
+
+    $.post(url,
+            { type: 2, year: parseInt(entryYear), month: monthMap[entryMonth], position: entryPosition, name: "", value: 0, username: username.substring(6, usernameLength - 1) },
+            function (result) { alert(result); },
+            "json"); //2 = Expense based from EntryType enum
+}
+
+function updateExpenseEntry(elem) {
+    var url = "/Home/UpdateEntry";
+    var entryPosition = 0;
+    var name = "";
+    var value = 0;
+    var month = monthToNumberMap[$("#lblMonth").text()];
+    var year = parseInt($("#lblYear").text());
+    var username = $("#username").text();
+    var usernameLength = username.length;
+    var entryId = $(elem).attr("id");
+    entryPosition = parseInt(entryId.slice(-1));
+
+    name = $("#" + "expenseLabel" + entryPosition).text();
+    value = parseInt($("#" + "expenseField" + entryPosition).val()) || -1;
+
+    if (name != "Click to edit" && value > 0)
+        $.post(url,
+            { year: year, month: month, type: 2, position: entryPosition, name: name, value: value, username: username.substring(6, usernameLength - 1) },
+            function (result) { alert(result); },
+            "json");
 }

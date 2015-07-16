@@ -76,21 +76,22 @@ namespace Budgeteer.Controllers
         }
 
         [HttpPost]
-        public JsonResult UpdateEntry(int type, int position, string name, int value, string username)
+        public JsonResult UpdateEntry(int year, int month, int type, int position, string name, int value, string username)
         {
             BudgeteerDbContext DbContext = new BudgeteerDbContext();
             var entryType = (EntryType)type;
             var userId = DbContext.Users.FirstOrDefault(u => u.UserName.Equals(username)).Id;
-            
-            var entry = new Entry { UserId = userId, Type = entryType, Year = 0, Month = 0, Position = position, Name = name, Value = value };
 
-            var entryToUpdate = DbContext.Entries.First(e => e.Type == entryType && e.UserId == userId && e.Position == position);
+            var entry = new Entry { UserId = userId, Type = entryType, Year = year, Month = month, Position = position, Name = name, Value = value };
+
+            var entryToUpdate = DbContext.Entries.First(e =>e.Year == year && e.Month == month && e.Type == entryType && e.UserId == userId && e.Position == position);
 
             entry.EntryId = entryToUpdate.EntryId;
-            entry.Year = entryToUpdate.Year;
-            entry.Month = entryToUpdate.Month;
 
             DbContext.Entry(entryToUpdate).CurrentValues.SetValues(entry);
+
+            if(!DbContext.ChangeTracker.HasChanges())
+                return Json("success");
 
             var result = DbContext.SaveChanges();
             return Json(result == 1 ? "success" : "failure");
