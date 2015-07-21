@@ -1,4 +1,6 @@
-﻿var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+﻿var currentYear = new Date().getFullYear();
+var years = [currentYear - 4, currentYear - 3, currentYear - 2, currentYear - 1, currentYear, currentYear + 1, currentYear + 2, currentYear + 3, currentYear + 4, currentYear + 5];
+var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 var monthToNumberMap = {};
 monthToNumberMap[months[0]] = 1;
 monthToNumberMap[months[1]] = 2;
@@ -200,6 +202,7 @@ function SetCssOnMouseover(elem) {
 }
 
 $("#monthDiv").click(function () {
+    $("#yearListPopupDiv").remove();
     if ($("#monthListPopupDiv").length) {
         $("#monthListPopupDiv").remove();
         return;
@@ -230,7 +233,7 @@ $("#monthDiv").click(function () {
             $.ajax({
                 url: "/Home/UpdateEntries",
                 type: "GET",
-                data: { month: monthToNumberMap[$("#lblMonth").text()], year: 2015 }
+                data: { month: monthToNumberMap[$("#lblMonth").text()], year: parseInt($("#lblYear").text()) }
             })
             .done(function (partialViewResult) {
                 $("#userDataDiv").html(partialViewResult).animate({}, "2000");
@@ -245,6 +248,55 @@ $("#monthDiv").click(function () {
     $(newList).addClass("monthList");
     newDiv.appendChild(newList);
     $(newDiv).addClass("monthListDiv");
+    $(newDiv).appendTo(this);
+});
+
+$("#yearDiv").click(function () {
+    $("#monthListPopupDiv").remove();
+    if ($("#yearListPopupDiv").length) {
+        $("#yearListPopupDiv").remove();
+        return;
+    }
+
+    var newDiv = document.createElement("div");
+    newDiv.setAttribute("id", "yearListPopupDiv")
+    var newList = document.createElement("ul");
+
+    for (var x = 0; x < years.length; x++) {
+        var newItem = document.createElement("li");
+        var labelYear = document.createElement("label");
+        $(labelYear).text(years[x]);
+        newItem.appendChild(labelYear);
+        $(newItem).addClass("yearItem");
+
+        if (years[x] == $("#lblYear").text()) {
+            $(newItem).removeClass();
+            $(newItem).addClass("yearItemSelected");
+        }
+
+        $(newItem).on("click", function () {
+            $(document.getElementsByClassName("yearItemSelected")).removeClass().addClass("yearItem");
+            $(this).addClass("yearItemSelected");
+            $("#lblYear").text($(this).text());
+
+            $.ajax({
+                url: "/Home/UpdateEntries",
+                type: "GET",
+                data: { month: monthToNumberMap[$("#lblMonth").text()], year: parseInt($("#lblYear").text()) }
+            })
+            .done(function (partialViewResult) {
+                $("#userDataDiv").html(partialViewResult).animate({}, "2000");
+                SetValuesInTotalDiv();
+                ReattachIncomeEventListeners();
+                ReattachExpenseEventListeners();
+            });
+        });
+
+        newList.appendChild(newItem);
+    }
+    $(newList).addClass("yearList");
+    newDiv.appendChild(newList);
+    $(newDiv).addClass("yearListDiv");
     $(newDiv).appendTo(this);
 });
 

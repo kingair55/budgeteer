@@ -190,3 +190,56 @@
     font-family: 'Segoe UI';
     list-style-type: disc;
 }
+
+.yearListDiv{
+    width: 100px;
+    height: 270px;
+    background: white;
+    z-index: 20;
+    position: relative;
+    border-style: solid;
+    border-width: thin;
+    border-color: #bdbcbc;
+    margin: 0;
+    padding: 0;
+}
+
+.yearList{
+    margin: 0px;
+    padding-left: 0;
+    padding-top: 10px;
+    text-align: left;
+}
+
+.yearItem{
+    list-style-type: none;
+    width: 100px;
+    margin: 0;
+    padding-left: 30px;
+    padding-bottom: 5px;
+    color: #808080;
+    font-size: 15px;
+    font-family: 'Segoe UI';
+}
+
+.yearItem:hover{
+    width: 70px;
+    margin: 0;
+    padding-left: 30px;
+    padding-bottom: 5px;
+    color: #808080;
+    font-size: 15px;
+    font-family: 'Segoe UI';
+    background-color: #e2e2e2;
+}
+
+.yearItemSelected{
+    width: 70px;
+    margin: 0;
+    margin-left: 30px;
+    padding-bottom: 5px;
+    color: #808080;
+    font-size: 15px;
+    font-family: 'Segoe UI';
+    list-style-type: disc;
+}
