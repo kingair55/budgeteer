@@ -1,0 +1,14 @@
+﻿.errorMessageHidden{
+    display: none;
+}
+
+.errorMessageShown{
+    font-family: 'Segoe UI';
+    font-size: 16px;
+    color: red;
+}
+
+#lblLoginTitle{
+    font-family: 'Segoe UI';
+    font-size: 24px;
+}
