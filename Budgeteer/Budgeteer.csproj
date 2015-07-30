@@ -219,6 +219,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Entry.cs" />
+    <Compile Include="Models\YearlyUserDataViewModel.cs" />
     <Compile Include="Models\HomepageViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -273,7 +274,8 @@
     <Content Include="Views\Account\SendCode.cshtml" />
     <Content Include="Views\Account\VerifyCode.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\_UserData.cshtml" />
+    <Content Include="Views\Shared\_UserDataMonthly.cshtml" />
+    <Content Include="Views\Shared\_UserDataYearly.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

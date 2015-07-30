@@ -40,6 +40,39 @@ namespace Budgeteer.Controllers
             return View(viewModel);
         }
 
+        public ActionResult ChangeFrequencyFilter(string frequency)
+        {
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            var userId = string.Empty;
+            Claim userIdClaim = null;
+            var viewModel = new YearlyUserDataViewModel();
+            var DbContext = new BudgeteerDbContext();
+
+            if (claimsIdentity != null)
+            {
+                // the principal identity is a claims identity.
+                // now we need to find the NameIdentifier claim
+                userIdClaim = claimsIdentity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+
+                if (userIdClaim != null)
+                {
+                    userId = userIdClaim.Value;
+                }
+            }
+            List<int> years = DbContext.Entries.Select(e => e.Year).Distinct().ToList<int>();
+            years.Sort();
+
+            foreach (var year in years)
+            {
+                int totalIncome = DbContext.Entries.Where(e => e.Year == year && e.UserId == userId && e.Type == EntryType.Income).Select(e => e.Value).Aggregate((a, b) => b + a);
+                int totalExpense = DbContext.Entries.Where(e => e.Year == year && e.UserId == userId && e.Type == EntryType.Expense).Select(e => e.Value).Aggregate((a, b) => b + a);
+
+                viewModel.Entries.Add(new Tuple<int, int, int, int>(year, totalIncome + totalExpense, totalIncome, totalExpense));
+            }
+
+            return PartialView("_UserDataYearly", viewModel);
+        }
+
         public ActionResult UpdateEntries(int month, int year)
         {
             var claimsIdentity = User.Identity as ClaimsIdentity;
@@ -61,7 +94,7 @@ namespace Budgeteer.Controllers
             }
             viewModel.Entries = DbContext.Entries.Where(e => e.UserId.Equals(userId) && e.Month == month && e.Year == year).ToList();
 
-            return PartialView("_UserData", viewModel);
+            return PartialView("_UserDataMonthly", viewModel);
         }
 
         [HttpPost]

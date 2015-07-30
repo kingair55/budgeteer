@@ -2,7 +2,7 @@
 {
     public enum EntryType
     {
-        Income=1,
+        Income = 1,
         Expense
     };
 
@@ -20,5 +20,11 @@
         October,
         November,
         December
+    }
+
+    public enum FrequencyFilter
+    {
+        Monthly = 1,
+        Yearly
     }
 }
