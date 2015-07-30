@@ -202,11 +202,16 @@ function SetCssOnMouseover(elem) {
 }
 
 $("#monthDiv").click(function () {
-    $("#yearListPopupDiv").remove();
     if ($("#monthListPopupDiv").length) {
         $("#monthListPopupDiv").remove();
+        $(this).blur();
         return;
     }
+
+    $(this).focus();
+    $("#lblMonth").css("font-weight", "bold");
+    $("#lblMonth").css("font-size", "18px");
+    $("#lblMonth").css("color", "gray");
 
     var newDiv = document.createElement("div");
     newDiv.setAttribute("id", "monthListPopupDiv")
@@ -252,11 +257,16 @@ $("#monthDiv").click(function () {
 });
 
 $("#yearDiv").click(function () {
-    $("#monthListPopupDiv").remove();
     if ($("#yearListPopupDiv").length) {
         $("#yearListPopupDiv").remove();
+        $(this).blur();
         return;
     }
+
+    $(this).focus();
+    $("#lblYear").css("font-weight", "bold");
+    $("#lblYear").css("font-size", "18px");
+    $("#lblYear").css("color", "gray");
 
     var newDiv = document.createElement("div");
     newDiv.setAttribute("id", "yearListPopupDiv")
@@ -607,3 +617,19 @@ function updateExpenseEntry(elem) {
             function (result) { alert(result); },
             "json");
 }
+
+$("#monthDiv").blur(function () {
+    $("#monthListPopupDiv").remove();
+    $("#lblMonth").removeAttr("style");
+    $("#lblMonth").css("line-height", "40px");
+    $("#lblMonth").css("font-size", "15px");
+    $("#lblMonth").css("font-family", "Segoe UI");
+});
+
+$("#yearDiv").blur(function () {
+    $("#yearListPopupDiv").remove();
+    $("#lblYear").removeAttr("style");
+    $("#lblYear").css("line-height", "40px");
+    $("#lblYear").css("font-size", "15px");
+    $("#lblYear").css("font-family", "Segoe UI");
+});
