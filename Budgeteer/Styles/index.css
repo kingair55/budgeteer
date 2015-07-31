@@ -91,6 +91,7 @@
     float: left;
     text-align: center;
     color: #909090;
+    outline: none;
 }
 
 #monthDiv{
@@ -244,4 +245,90 @@
     font-size: 15px;
     font-family: 'Segoe UI';
     list-style-type: disc;
+}
+
+.frequencyListDiv{
+    width: 115px;
+    height: 70px;
+    background: white;
+    z-index: 20;
+    position: relative;
+    border-style: solid;
+    border-width: thin;
+    border-color: #bdbcbc;
+    margin: 0;
+    padding: 0;
+}
+
+.frequencyList{
+    margin: 0px;
+    padding-left: 0;
+    padding-top: 10px;
+    text-align: left;
+}
+
+.frequencyItem{
+    list-style-type: none;
+    width: 115px;
+    margin: 0;
+    padding-left: 30px;
+    padding-bottom: 5px;
+    color: #808080;
+    font-size: 15px;
+    font-family: 'Segoe UI';
+}
+
+.frequencyItem:hover{
+    width: 85px;
+    margin: 0;
+    padding-left: 30px;
+    padding-bottom: 5px;
+    color: #808080;
+    font-size: 15px;
+    font-family: 'Segoe UI';
+    background-color: #e2e2e2;
+}
+
+.frequencyItemSelected{
+    width: 115px;
+    margin: 0;
+    margin-left: 30px;
+    padding-bottom: 5px;
+    color: #808080;
+    font-size: 15px;
+    font-family: 'Segoe UI';
+    list-style-type: disc;
+}
+
+#headerStripDiv{
+    width: 1000px;
+    height: 75px;
+}
+
+#headerYearDiv{
+    width: 250px;
+    height: 75px;
+    float: left;
+    background-color: ActiveCaption;
+}
+
+#headerTotalDiv{
+    width: 250px;
+    height: 75px;
+    float: left;
+    background-color: aquamarine;
+}
+
+#headerIncomeDiv{
+    width: 250px;
+    height: 75px;
+    float: left;
+    background-color: antiquewhite;
+}
+
+#headerExpenseDiv{
+    width: 250px;
+    height: 75px;
+    float: left;
+    background-color: chartreuse;
 }

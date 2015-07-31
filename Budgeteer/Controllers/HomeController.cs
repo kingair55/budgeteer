@@ -48,6 +48,8 @@ namespace Budgeteer.Controllers
             var viewModel = new YearlyUserDataViewModel();
             var DbContext = new BudgeteerDbContext();
 
+            viewModel.Entries = new List<Tuple<int, int, int, int>>();
+
             if (claimsIdentity != null)
             {
                 // the principal identity is a claims identity.
@@ -57,17 +59,18 @@ namespace Budgeteer.Controllers
                 if (userIdClaim != null)
                 {
                     userId = userIdClaim.Value;
+
+                    List<int> years = DbContext.Entries.Select(e => e.Year).Distinct().ToList<int>();
+                    years.Sort();
+
+                    foreach (var year in years)
+                    {
+                        int totalIncome = DbContext.Entries.Where(e => e.Year == year && e.UserId == userId && e.Type == EntryType.Income).Select(e => e.Value).ToList<int>().Aggregate((a, b) => b + a);
+                        int totalExpense = DbContext.Entries.Where(e => e.Year == year && e.UserId == userId && e.Type == EntryType.Expense).Select(e => e.Value).ToList<int>().Aggregate((a, b) => b + a);
+
+                        viewModel.Entries.Add(new Tuple<int, int, int, int>(year, totalIncome - totalExpense, totalIncome, totalExpense));
+                    }
                 }
-            }
-            List<int> years = DbContext.Entries.Select(e => e.Year).Distinct().ToList<int>();
-            years.Sort();
-
-            foreach (var year in years)
-            {
-                int totalIncome = DbContext.Entries.Where(e => e.Year == year && e.UserId == userId && e.Type == EntryType.Income).Select(e => e.Value).Aggregate((a, b) => b + a);
-                int totalExpense = DbContext.Entries.Where(e => e.Year == year && e.UserId == userId && e.Type == EntryType.Expense).Select(e => e.Value).Aggregate((a, b) => b + a);
-
-                viewModel.Entries.Add(new Tuple<int, int, int, int>(year, totalIncome + totalExpense, totalIncome, totalExpense));
             }
 
             return PartialView("_UserDataYearly", viewModel);

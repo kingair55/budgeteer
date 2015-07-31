@@ -1,6 +1,7 @@
 ﻿var currentYear = new Date().getFullYear();
 var years = [currentYear - 4, currentYear - 3, currentYear - 2, currentYear - 1, currentYear, currentYear + 1, currentYear + 2, currentYear + 3, currentYear + 4, currentYear + 5];
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+var frequency = ["Monthly", "Yearly"];
 var monthToNumberMap = {};
 monthToNumberMap[months[0]] = 1;
 monthToNumberMap[months[1]] = 2;
@@ -307,6 +308,60 @@ $("#yearDiv").click(function () {
     $(newList).addClass("yearList");
     newDiv.appendChild(newList);
     $(newDiv).addClass("yearListDiv");
+    $(newDiv).appendTo(this);
+});
+
+$("#dateFrequencyDiv").click(function () {
+    if ($("#dateFrequencyListPopupDiv").length) {
+        $("#dateFrequencyListPopupDiv").remove();
+        $(this).blur();
+        return;
+    }
+
+    $(this).focus();
+    $("#lblDateFrequency").css("font-weight", "bold");
+    $("#lblDateFrequency").css("font-size", "18px");
+    $("#lblDateFrequency").css("color", "gray");
+
+    var newDiv = document.createElement("div");
+    newDiv.setAttribute("id", "dateFrequencyListPopupDiv")
+    var newList = document.createElement("ul");
+
+    for (var x = 0; x < frequency.length; x++) {
+        var newItem = document.createElement("li");
+        var labelFrequency = document.createElement("label");
+        $(labelFrequency).text(frequency[x]);
+        newItem.appendChild(labelFrequency);
+        $(newItem).addClass("frequencyItem");
+
+        if (frequency[x] == $("#lblFrequency").text()) {
+            $(newItem).removeClass();
+            $(newItem).addClass("frequencyItemSelected");
+        }
+
+        $(newItem).on("click", function () {
+            $(document.getElementsByClassName("frequencyItemSelected")).removeClass().addClass("frequencyItem");
+            $(this).addClass("frequencyItemSelected");
+            $("#lblDateFrequency").text($(this).text());
+
+            $.ajax({
+                url: "/Home/ChangeFrequencyFilter",
+                type: "GET",
+                data: { frequency: $("#lblDateFrequency").text() }
+            })
+            .done(function (partialViewResult) {
+                $("#userDataDiv").html(partialViewResult).animate({}, "2000");
+                //SetValuesInTotalDiv();
+                //ReattachIncomeEventListeners();
+                //ReattachExpenseEventListeners();
+            });
+        });
+
+        newList.appendChild(newItem);
+    }
+    $(newList).addClass("frequencyList");
+    newDiv.appendChild(newList);
+    $(newDiv).addClass("frequencyListDiv");
     $(newDiv).appendTo(this);
 });
 
@@ -632,4 +687,12 @@ $("#yearDiv").blur(function () {
     $("#lblYear").css("line-height", "40px");
     $("#lblYear").css("font-size", "15px");
     $("#lblYear").css("font-family", "Segoe UI");
+});
+
+$("#dateFrequencyDiv").blur(function () {
+    $("#dateFrequencyListPopupDiv").remove();
+    $("#lblDateFrequency").removeAttr("style");
+    $("#lblDateFrequency").css("line-height", "40px");
+    $("#lblDateFrequency").css("font-size", "15px");
+    $("#lblDateFrequency").css("font-family", "Segoe UI");
 });

@@ -1,28 +1,27 @@
 ﻿@model Budgeteer.Models.YearlyUserDataViewModel
 
-<div id="userDataYearlyDiv">
-    <div id="headerStripDiv">
-        <div id="headerYearDiv">
-        </div>
-        <div id="headerTotalDiv">
-            <label id="lblHeaderTotal">Total</label>
-        </div>
-        <div id="totalIncomeDiv">
-            <label id="lblHeaderIncome">Income</label>
-        </div>
-        <div id="totalExpenseDiv">
-            <label id="lblHeaderExpense">Expense</label>
-        </div>
+<div id="headerStripDiv">
+    <div id="headerYearDiv">
+        @*<label id="lblHeaderYear">Year</label>*@
     </div>
-    @{
-        foreach (var entry in Model.Entries)
-        {
-            <div class="yearlyRowDiv">
-                <div class="yearlyYearColDiv"><label id="lblYearlyYear">$@entry.Item1</label></div>
-                <div class="yearlyTotalColDiv"><label id="lblYearlyTotal">$@entry.Item2</label></div>
-                <div class="yearlyIncomeColDiv"><label id="lblYearlyIncome">$@entry.Item3</label></div>
-                <div class="yearlyExpenseColDiv"><label id="lblYearlyExpense">$@entry.Item4</label></div>
-            </div>
-        }
-    }
+    <div id="headerTotalDiv">
+        <label id="lblHeaderTotal">Total</label>
+    </div>
+    <div id="headerIncomeDiv">
+        <label id="lblHeaderIncome">Income</label>
+    </div>
+    <div id="headerExpenseDiv">
+        <label id="lblHeaderExpense">Expense</label>
+    </div>
 </div>
+@{
+    foreach (var entry in Model.Entries)
+    {
+        <div class="yearlyRowDiv">
+            <div class="yearlyYearColDiv"><label id="lblYearlyYear">@entry.Item1</label></div>
+            <div class="yearlyTotalColDiv"><label id="lblYearlyTotal">$@entry.Item2</label></div>
+            <div class="yearlyIncomeColDiv"><label id="lblYearlyIncome">$@entry.Item3</label></div>
+            <div class="yearlyExpenseColDiv"><label id="lblYearlyExpense">$@entry.Item4</label></div>
+        </div>
+    }
+}
