@@ -302,33 +302,62 @@
 
 #headerStripDiv{
     width: 1000px;
-    height: 75px;
+    height: 50px;
 }
 
 #headerYearDiv{
-    width: 250px;
-    height: 75px;
+    width: 175px;
+    height: 50px;
     float: left;
     background-color: ActiveCaption;
 }
 
 #headerTotalDiv{
-    width: 250px;
-    height: 75px;
+    width: 275px;
+    height: 50px;
     float: left;
     background-color: aquamarine;
 }
 
 #headerIncomeDiv{
-    width: 250px;
-    height: 75px;
+    width: 275px;
+    height: 50px;
     float: left;
     background-color: antiquewhite;
 }
 
 #headerExpenseDiv{
-    width: 250px;
-    height: 75px;
+    width: 275px;
+    height: 50px;
     float: left;
     background-color: chartreuse;
+}
+
+.yearlyRowDiv{
+    width: 1000px;
+    height: 50px;
+}
+
+.yearlyYearColDiv{
+    width: 175px;
+    height: 50px;
+    float: left;
+}
+
+.yearlyTotalColDiv{
+    width: 275px;
+    height: 50px;
+    float: left;
+}
+
+.yearlyIncomeColDiv{
+    width: 275px;
+    height: 50px;
+    float: left;
+}
+
+.yearlyExpenseColDiv{
+    width: 275px;
+    height: 50px;
+    float: left;
 }
