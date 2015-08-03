@@ -44,13 +44,13 @@ function getElementCountByClass(elementClass) {
 $(document).ready(function () {
     SetEditEntryModal();
 
-    AttachClickEventToDeleteEntryIncome();
-    AttachClickEventToDeleteEntryExpense();
+    AttachClickEventToDeleteEntry();
+    //AttachClickEventToDeleteEntryExpense();
 
     SetValuesInTotalDiv();
 });
 
-function AttachClickEventToDeleteEntryIncome() {
+function AttachClickEventToDeleteEntry() {
     $("#deleteEntry").on("click", function () {
         var entryToDelete = $(this).parent().parent();
         $("#editEntryModal").appendTo($("#incomeList"));
@@ -83,38 +83,38 @@ function AttachClickEventToDeleteEntryIncome() {
     });
 }
 
-function AttachClickEventToDeleteEntryExpense() {
-    $("#deleteEntry").on("click", function () {
-        var entryToDelete = $(this).parent().parent();
-        $("#editEntryModal").appendTo($("#expenseList"));
+//function AttachClickEventToDeleteEntryExpense() {
+//    $("#deleteEntry").on("click", function () {
+//        var entryToDelete = $(this).parent().parent();
+//        $("#editEntryModal").appendTo($("#expenseList"));
 
-        var url = "/Home/DeleteEntry";
-        var month = monthToNumberMap[$("#lblMonth").text()];
-        var year = parseInt($("#lblYear").text());
-        var type = 0;
-        var entryPosition = 0;
-        var username = $("#username").text();
-        var usernameLength = username.length;
+//        var url = "/Home/DeleteEntry";
+//        var month = monthToNumberMap[$("#lblMonth").text()];
+//        var year = parseInt($("#lblYear").text());
+//        var type = 0;
+//        var entryPosition = 0;
+//        var username = $("#username").text();
+//        var usernameLength = username.length;
 
-        if (entryToDelete.attr("id").indexOf("expense") > -1)
-            type = 1;
-        else
-            type = 2;
+//        if (entryToDelete.attr("id").indexOf("expense") > -1)
+//            type = 1;
+//        else
+//            type = 2;
 
-        entryPosition = parseInt(entryToDelete.attr("id").slice(-1));
+//        entryPosition = parseInt(entryToDelete.attr("id").slice(-1));
 
-        $.post(url, { year: year, month: month, type: type, position: entryPosition, username: username.substring(6, usernameLength - 1) }, function (result) { alert(result); }, "json");
+//        $.post(url, { year: year, month: month, type: type, position: entryPosition, username: username.substring(6, usernameLength - 1) }, function (result) { alert(result); }, "json");
 
-        entryToDelete.remove();
+//        entryToDelete.remove();
 
-        $("#editEntryModal").css("display", "none");
-        $("#deleteEntry").css("display", "none");
+//        $("#editEntryModal").css("display", "none");
+//        $("#deleteEntry").css("display", "none");
 
-        UpdateValues();
-        updateSavingsTextColor();
-        ReSequenceEntryLabelAndInputIdIndex();
-    });
-}
+//        UpdateValues();
+//        updateSavingsTextColor();
+//        ReSequenceEntryLabelAndInputIdIndex();
+//    });
+//}
 
 function SetEditEntryModal() {
     var editEntryModal = document.createElement("div");
@@ -136,7 +136,7 @@ function SetEditEntryModal() {
 function GetTotal(entryClass) {
     var total = 0;
     $(entryClass).each(function () {
-        total += parseInt(this.value);
+        total += isNaN(this.value) ? 0 : parseInt(this.value);
     });
     return total;
 }
@@ -244,6 +244,8 @@ $("#monthDiv").click(function () {
             .done(function (partialViewResult) {
                 $("#userDataDiv").html(partialViewResult).animate({}, "2000");
                 SetValuesInTotalDiv();
+                SetEditEntryModal();
+                AttachClickEventToDeleteEntry();
                 ReattachIncomeEventListeners();
                 ReattachExpenseEventListeners();
             });
@@ -298,6 +300,8 @@ $("#yearDiv").click(function () {
             .done(function (partialViewResult) {
                 $("#userDataDiv").html(partialViewResult).animate({}, "2000");
                 SetValuesInTotalDiv();
+                SetEditEntryModal();
+                AttachClickEventToDeleteEntry();
                 ReattachIncomeEventListeners();
                 ReattachExpenseEventListeners();
             });
@@ -347,13 +351,19 @@ $("#dateFrequencyDiv").click(function () {
             $.ajax({
                 url: "/Home/ChangeFrequencyFilter",
                 type: "GET",
-                data: { frequency: $("#lblDateFrequency").text() }
+                data: { frequency: $("#lblDateFrequency").text(), selectedYear: parseInt($("#lblYear").text()), selectedMonth: monthToNumberMap[$("#lblMonth").text()] }
             })
             .done(function (partialViewResult) {
                 $("#userDataDiv").html(partialViewResult).animate({}, "2000");
-                //SetValuesInTotalDiv();
-                //ReattachIncomeEventListeners();
-                //ReattachExpenseEventListeners();
+
+                if ($("#lblDateFrequency").text() == "Yearly")
+                    ApplyYearlySavingsColor();
+                else
+                    SetValuesInTotalDiv();
+                    SetEditEntryModal();
+                    AttachClickEventToDeleteEntry();
+                    ReattachIncomeEventListeners();
+                    ReattachExpenseEventListeners();
             });
         });
 
@@ -387,9 +397,6 @@ function SetValuesInTotalDiv()
 }
 
 function ReattachIncomeEventListeners() {
-    SetEditEntryModal();
-    AttachClickEventToDeleteEntryIncome();
-
     $(".incomeEntry").each(function (index, obj) {
         $(this).css("background-color", "white");
 
@@ -529,9 +536,6 @@ function AddIncomeEntry(entryPosition) {
 }
 
 function ReattachExpenseEventListeners() {
-    SetEditEntryModal();
-    AttachClickEventToDeleteEntryExpense();
-
     $(".expenseEntry").each(function (index, obj) {
         $(this).css("background-color", "white");
 
@@ -696,3 +700,10 @@ $("#dateFrequencyDiv").blur(function () {
     $("#lblDateFrequency").css("font-size", "15px");
     $("#lblDateFrequency").css("font-family", "Segoe UI");
 });
+
+function ApplyYearlySavingsColor() {
+    $(".lblYearlyTotal").each(function () {
+        if ($(this).text().indexOf('-') === 1)
+            $(this).css("color", "red");
+    });
+}

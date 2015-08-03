@@ -40,15 +40,12 @@ namespace Budgeteer.Controllers
             return View(viewModel);
         }
 
-        public ActionResult ChangeFrequencyFilter(string frequency)
+        public ActionResult ChangeFrequencyFilter(string frequency, int selectedYear, int selectedMonth)
         {
             var claimsIdentity = User.Identity as ClaimsIdentity;
             var userId = string.Empty;
             Claim userIdClaim = null;
-            var viewModel = new YearlyUserDataViewModel();
             var DbContext = new BudgeteerDbContext();
-
-            viewModel.Entries = new List<Tuple<int, int, int, int>>();
 
             if (claimsIdentity != null)
             {
@@ -60,20 +57,31 @@ namespace Budgeteer.Controllers
                 {
                     userId = userIdClaim.Value;
 
-                    List<int> years = DbContext.Entries.Select(e => e.Year).Distinct().ToList<int>();
-                    years.Sort();
-
-                    foreach (var year in years)
+                    if (frequency == "Yearly")
                     {
-                        int totalIncome = DbContext.Entries.Where(e => e.Year == year && e.UserId == userId && e.Type == EntryType.Income).Select(e => e.Value).ToList<int>().Aggregate((a, b) => b + a);
-                        int totalExpense = DbContext.Entries.Where(e => e.Year == year && e.UserId == userId && e.Type == EntryType.Expense).Select(e => e.Value).ToList<int>().Aggregate((a, b) => b + a);
+                        var viewModel = new YearlyUserDataViewModel();
+                        viewModel.Entries = new List<Tuple<int, int, int, int>>();
+                        List<int> years = DbContext.Entries.Select(e => e.Year).Distinct().ToList<int>();
+                        years.Sort();
 
-                        viewModel.Entries.Add(new Tuple<int, int, int, int>(year, totalIncome - totalExpense, totalIncome, totalExpense));
+                        foreach (var year in years)
+                        {
+                            int totalIncome = DbContext.Entries.Where(e => e.Year == year && e.UserId == userId && e.Type == EntryType.Income).Select(e => e.Value).ToList<int>().Aggregate((a, b) => b + a);
+                            int totalExpense = DbContext.Entries.Where(e => e.Year == year && e.UserId == userId && e.Type == EntryType.Expense).Select(e => e.Value).ToList<int>().Aggregate((a, b) => b + a);
+
+                            viewModel.Entries.Add(new Tuple<int, int, int, int>(year, totalIncome - totalExpense, totalIncome, totalExpense));
+                        }
+                        return PartialView("_UserDataYearly", viewModel);
+                    }
+                    else
+                    {
+                        var viewModel = new HomepageViewModel();
+                        viewModel.Entries = DbContext.Entries.Where(e => e.UserId.Equals(userId) && e.Month == selectedYear && e.Year == selectedMonth).ToList();
+                        return PartialView("_UserDataMonthly", viewModel);
                     }
                 }
             }
-
-            return PartialView("_UserDataYearly", viewModel);
+            return View();
         }
 
         public ActionResult UpdateEntries(int month, int year)

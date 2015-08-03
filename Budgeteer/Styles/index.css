@@ -309,28 +309,38 @@
     width: 175px;
     height: 50px;
     float: left;
-    background-color: ActiveCaption;
+    text-align: center;
+    line-height: 50px;
 }
 
 #headerTotalDiv{
     width: 275px;
     height: 50px;
     float: left;
-    background-color: aquamarine;
+    text-align: center;
+    line-height: 50px;
+    font-family: 'Segoe UI';
+    font-size: 18px;
 }
 
 #headerIncomeDiv{
     width: 275px;
     height: 50px;
     float: left;
-    background-color: antiquewhite;
+    text-align: center;
+    line-height: 50px;
+    font-family: 'Segoe UI';
+    font-size: 18px;
 }
 
 #headerExpenseDiv{
     width: 275px;
     height: 50px;
     float: left;
-    background-color: chartreuse;
+    text-align: center;
+    line-height: 50px;
+    font-family: 'Segoe UI';
+    font-size: 18px;
 }
 
 .yearlyRowDiv{
@@ -342,22 +352,62 @@
     width: 175px;
     height: 50px;
     float: left;
+    line-height: 50px;
+    text-align: center;
+    font-family: 'Segoe UI';
+    font-size: 16px;
 }
 
 .yearlyTotalColDiv{
     width: 275px;
     height: 50px;
     float: left;
+    line-height: 50px;
+    text-align: center;
+    font-family: 'Segoe UI';
+    font-size: 16px;
 }
 
 .yearlyIncomeColDiv{
     width: 275px;
     height: 50px;
     float: left;
+    line-height: 50px;
+    text-align: center;
+    font-family: 'Segoe UI';
+    font-size: 16px;
 }
 
 .yearlyExpenseColDiv{
     width: 275px;
     height: 50px;
     float: left;
+    line-height: 50px;
+    text-align: center;
+    font-family: 'Segoe UI';
+    font-size: 16px;
+}
+
+.lblYearlyYear{
+}
+
+.lblYearlyTotal{
+}
+
+.lblYearlyIncome{
+}
+
+.lblYearlyExpense{
+}
+
+#lblHeaderTotal{
+    color: #808080;
+}
+
+#lblHeaderIncome{
+    color: #808080;
+}
+
+#lblHeaderExpense{
+    color: #808080;
 }

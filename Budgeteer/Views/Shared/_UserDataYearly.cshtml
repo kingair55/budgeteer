@@ -5,7 +5,7 @@
         @*<label id="lblHeaderYear">Year</label>*@
     </div>
     <div id="headerTotalDiv">
-        <label id="lblHeaderTotal">Total</label>
+        <label id="lblHeaderTotal">Savings</label>
     </div>
     <div id="headerIncomeDiv">
         <label id="lblHeaderIncome">Income</label>
@@ -18,10 +18,10 @@
     foreach (var entry in Model.Entries)
     {
         <div class="yearlyRowDiv">
-            <div class="yearlyYearColDiv"><label id="lblYearlyYear">@entry.Item1</label></div>
-            <div class="yearlyTotalColDiv"><label id="lblYearlyTotal">$@entry.Item2</label></div>
-            <div class="yearlyIncomeColDiv"><label id="lblYearlyIncome">$@entry.Item3</label></div>
-            <div class="yearlyExpenseColDiv"><label id="lblYearlyExpense">$@entry.Item4</label></div>
+            <div class="yearlyYearColDiv"><label class="lblYearlyYear">@entry.Item1</label></div>
+            <div class="yearlyTotalColDiv"><label class="lblYearlyTotal">$@entry.Item2</label></div>
+            <div class="yearlyIncomeColDiv"><label class="lblYearlyIncome">$@entry.Item3</label></div>
+            <div class="yearlyExpenseColDiv"><label class="lblYearlyExpense">$@entry.Item4</label></div>
         </div>
     }
 }

@@ -14,7 +14,6 @@
             <div id="addIncomeDiv">
                 <input type="button" id="addIncome" value="Add Income" />
             </div>
-            var entryIndex = 1;
             var entryName = string.Empty;
             var entryValue = string.Empty;
             var entryId = string.Empty;
@@ -25,13 +24,12 @@
                 if (!entry.Type.Equals(Budgeteer.Utilities.Enums.EntryType.Income)) { continue; }
                 entryName = entry.Name == string.Empty ? "Click to edit" : entry.Name;
                 entryValue = entry.Value == 0 ? "Income" : entry.Value.ToString();
-                entryId = "incomeLabel" + entryIndex;
-                entryDivId = "incomeDiv" + entryIndex;
-                entryFieldId = "incomeField" + entryIndex;
+                entryId = "incomeLabel" + entry.Position;
+                entryDivId = "incomeDiv" + entry.Position;
+                entryFieldId = "incomeField" + entry.Position;
                 <div id=@entryDivId class="incomeEntry">
                     <label id=@entryId class="incomeType">@entryName</label><input id=@entryFieldId class="incomeInput" type="text" value="@entryValue" />
                 </div>
-                entryIndex++;
             }
         }
     </div>
